@@ -63,11 +63,15 @@ export const registerUser = async(data) => {
 //createComplaint
 export const createComplaint = async(formData) => {
     const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+    const username = user ? user.username : null;
+
+    console.log("User in createComplaint:", user);
 
     console.log("Token:", token);
 
     const response = await fetch(
-        "http://localhost:5000/api/createComplaint", {
+        `http://localhost:5000/api/createComplaint`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -109,49 +113,105 @@ export const getUsers = async() => {
 };
 
 //myComplaints
+// ==============================
+// GET MY COMPLAINTS
+// ==============================
+
 export const getMyComplaints = async() => {
-    const token = localStorage.getItem("token");
+    try {
+        const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:5000/api/myComplaints`, {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    console.log("dekho mera rowdism", response)
-    return await response.json();
+        const user = JSON.parse(
+            localStorage.getItem("user")
+        );
+
+        const username = user ? user.username : null;
+
+        console.log("Logged user:", username);
+
+        const response = await fetch(
+            `http://localhost:5000/api/myComplaints/${username}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        const data = await response.json();
+
+        console.log("My complaints:", data);
+
+        return data;
+    } catch (error) {
+        console.log("Error fetching complaints:", error);
+        return [];
+    }
 };
-//submit feedback
-export const submitFeedback = async(id, formData) => {
-    const token = localStorage.getItem("token");
 
-    const res = await fetch(
-        `http://localhost:5000/api/allComplaints/feedback/${id}`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-        }
-    );
+// ==============================
+// SUBMIT FEEDBACK IMAGE
+// ==============================
 
-    return await res.json();
+export const submitFeedback = async(
+    id,
+    formData
+) => {
+    try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            `http://localhost:5000/api/allComplaints/feedback/${id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    // don't add content type
+                },
+                body: formData,
+            }
+        );
+
+        const data = await response.json();
+
+        console.log("Feedback uploaded:", data);
+
+        return data;
+    } catch (error) {
+        console.log(
+            "Feedback upload error:",
+            error
+        );
+    }
 };
 
-//delete complaint
-export const deleteComplaint = async(id) => {
+// ==============================
+// DELETE COMPLAINT
+// ==============================
 
-    const token = localStorage.getItem("token");
+export const deleteComplaint = async(
+    id
+) => {
+    try {
+        const token = localStorage.getItem("token");
 
-    const response = await fetch(
-        `http://localhost:5000/api/complaints/${id}`, {
-            method: "DELETE",
+        const response = await fetch(
+            `http://localhost:5000/api/allComplaints/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+        const data = await response.json();
 
-    return await response.json();
+        console.log("Complaint deleted:", data);
+
+        return data;
+    } catch (error) {
+        console.log(
+            "Delete complaint error:",
+            error
+        );
+    }
 };

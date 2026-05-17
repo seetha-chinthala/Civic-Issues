@@ -12,6 +12,9 @@ const issueSchema = new mongoose.Schema({
     },
 
     username: String,
+    image: String,
+    feedbackImage: String,
+
     date: {
         type: Date,
         default: Date.now()

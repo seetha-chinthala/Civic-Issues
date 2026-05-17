@@ -20,7 +20,7 @@ router.post(
     uploads.single("image"),
     async(req, res) => {
         try {
-            const { title, category, description, location, date, userId } =
+            const { title, category, description, location, date, username } =
             req.body;
 
             const issue = new Issue({
@@ -29,6 +29,8 @@ router.post(
                 description,
                 location,
                 date,
+                username,
+
                 image: req.file ?
                     req.file.filename : "",
             });
@@ -71,12 +73,12 @@ router.put("/updateStatus/:id", authMiddleware, async(req, res) => {
 });
 
 //my Complaints
-router.get("/myComplaints", authMiddleware, async(req, res) => {
+router.get("/myComplaints/:username", authMiddleware, async(req, res) => {
 
     const issues = await Issue.find({
-        userId: req.user.id,
-    });
-    console.log("mee to", req.user)
+        username: req.params.username,
+    }).sort({ date: -1 });
+    console.log("mee to", req.user.username)
     console.log(issues)
     res.json(issues);
 });

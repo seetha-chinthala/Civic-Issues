@@ -59,6 +59,7 @@ router.post(
                 message: "Login Successful",
                 token,
                 user: {
+                    userId: user._id,
                     username: user.username,
                     role: user.role,
                     password: user.password

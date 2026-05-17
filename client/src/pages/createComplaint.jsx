@@ -64,6 +64,11 @@ function CreateComplaint() {
     e
   ) => {
     e.preventDefault();
+    const details=localStorage.getItem("user")
+    const user = JSON.parse(details);
+  
+    const username = user ? user.username :"raledhu ra babu";
+    console.log("please",user)
 
     setLoading(true);
     setMessage("");
@@ -100,6 +105,13 @@ function CreateComplaint() {
       "status",
       "Pending"
     );
+    formData.append(
+      "username",
+      username)
+
+    //formData.append(
+      //"userId",
+      //userId)
 
     if (form.image) {
       formData.append(
@@ -126,6 +138,7 @@ function CreateComplaint() {
         location: "",
         description: "",
         date: "",
+        username: "",
         image: null,
       });
     } catch (error) {
