@@ -79,41 +79,62 @@ function Register() {
         };
 
         const res =
-          await registerUser(
-            payload
-          );
+  await registerUser(
+    payload
+  );
 
-        console.log(
-          res
-        );
+console.log(res);
 
-        alert(
-          "Registration successful ✅"
-        );
+// SAVE TOKEN
+localStorage.setItem(
+  "token",
+  res.token
+);
 
-        if (
-          data.role ===
-          "admin"
-        ) {
-          navigate(
-            "/adminDashboard"
-          );
-        } else {
-          navigate(
-            "/userDashboard"
-          );
-        }
-      } catch (
-        err
-      ) {
-        console.error(
-          err
-        );
+// SAVE USER
+localStorage.setItem(
+  "user",
+  JSON.stringify(
+    res.user
+  )
+);
 
-        alert(
-          "Registration failed ❌"
-        );
-      }
+// SAVE USERNAME
+localStorage.setItem(
+  "username",
+  res.user.username
+);
+
+// SAVE EMAIL
+localStorage.setItem(
+  "email",
+  res.user.email
+);
+
+alert(
+  "Registration successful ✅"
+);
+
+if (
+  res.user.role ===
+  "admin"
+) {
+  navigate(
+    "/adminDashboard"
+  );
+} else {
+  navigate(
+    "/userDashboard"
+  );
+}
+      } catch (err) {
+
+  console.error(err);
+
+  setError(
+    err.message
+  );
+}
     };
 
   return (

@@ -41,26 +41,32 @@ export const loginUser =
 //register
 export const registerUser = async(data) => {
     try {
-        const response = await fetch("http://localhost:5000/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
+        const response = await fetch(
+            "http://localhost:5000/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }
+        );
 
-        const res = await response.json();
-        if (response.ok) {
-            //alert("Registration successful ✅");
-        } else {
-            alert(res.message);
+        const res =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                res.message || "Registration failed"
+            );
         }
+
+        return res;
+
     } catch (err) {
         console.error(err);
-        // alert("Registration make failed ❌");
+        throw err;
     }
-};
-//createComplaint
+}; //createComplaint
 export const createComplaint = async(formData) => {
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");

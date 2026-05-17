@@ -11,14 +11,97 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 /* REGISTER */
-router.post("/register", async(req, res) => {
 
-    const user = new User(req.body);
-    console.log("Registering user:", req.body); // Debug log    
-    await user.save();
+router.post(
+    "/register",
+    async(req, res) => {
+        try {
 
-    res.json(user);
-});
+            const {
+                username,
+                email,
+                password,
+                role,
+            } = req.body;
+
+            // CHECK USERNAME
+            const existingUsername =
+                await User.findOne({
+                    username,
+                });
+
+            if (
+                existingUsername
+            ) {
+                return res
+                    .status(400)
+                    .json({
+                        message: "Username already exists ❌",
+                    });
+            }
+
+            // CHECK EMAIL
+            const existingEmail =
+                await User.findOne({
+                    email,
+                });
+
+            if (
+                existingEmail
+            ) {
+                return res
+                    .status(400)
+                    .json({
+                        message: "Email already exists ❌",
+                    });
+            }
+
+            // CREATE USER
+            const user =
+                new User({
+                    username,
+                    email,
+                    password,
+                    role,
+                });
+
+            await user.save();
+
+            // TOKEN
+            const token =
+                jwt.sign({
+                        id: user._id,
+                        role: user.role,
+                    },
+                    "SECRET_KEY", {
+                        expiresIn: "7d",
+                    }
+                );
+
+            res.json({
+                message: "Registration successful ✅",
+
+                token,
+
+                user: {
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    role: user.role,
+                },
+            });
+
+        } catch (error) {
+
+            console.log(error);
+
+            res.status(500)
+                .json({
+                    message: "Registration failed ❌",
+                });
+        }
+    }
+);
 
 /* LOGIN */
 
