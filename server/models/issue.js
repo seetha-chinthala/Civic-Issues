@@ -11,7 +11,11 @@ const issueSchema = new mongoose.Schema({
         default: "Pending"
     },
 
-    username: String
+    username: String,
+    date: {
+        type: Date,
+        default: Date.now()
+    },
 });
 
 module.exports = mongoose.model("Issue", issueSchema);

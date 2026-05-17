@@ -1,276 +1,474 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  allComplaints,
+  updateComplaintStatus,
+} from "../api";
+import { useNavigate ,Link} from "react-router-dom";
 import "./adminDashboard.css";
 
-//import {
-  //FaHome,
-  //
+import {
+  FaHome,
+  FaClipboardList,
+  FaUsers,
+  FaBell,
+  FaSignOutAlt,
+  FaHeadset,
+  FaFilter,
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaClock,
+  FaExclamationCircle,
+} from "react-icons/fa";
+
 function AdminDashboard() {
+  // NAVIGATION
   const navigate = useNavigate();
 
-  // =========================
-  // Navigation Handlers
-  // =========================
-  const handleDashboard = () => {
-    navigate("/admin");
-  };
+  
+  // STATES
+  const [complaints, setComplaints] =
+    useState([]);
 
-  const handleComplaints = () => {
-    navigate("/complaints");
-  };
+  const [loading, setLoading] =
+    useState(true);
 
-  const handleUsers = () => {
-    navigate("/users");
-  };
+  const [error, setError] =
+    useState("");
 
-  const handleReports = () => {
-    navigate("/reports");
-  };
+  // FILTER STATES
+  const [statusFilter, setStatusFilter] =
+    useState("All Status");
 
-  const handleSettings = () => {
-    navigate("/settings");
-  };
+  const [
+    categoryFilter,
+    setCategoryFilter,
+  ] = useState("All Categories");
 
-  const handleNotifications = () => {
-    navigate("/notifications");
-  };
+  const [searchTerm, setSearchTerm] =
+    useState("");
 
-  const handleSupport = () => {
-    navigate("/support");
-  };
+  // TEMP FILTER STATES
+  const [tempStatus, setTempStatus] =
+    useState("All Status");
 
-  const handleFilter = () => {
-    alert("Filter applied");
-  };
+  const [
+    tempCategory,
+    setTempCategory,
+  ] = useState("All Categories");
 
-  const handleLogout = () => {
-    navigate("/");
-  };
+  const [tempSearch, setTempSearch] =
+    useState("");
 
-  // =========================
-  // Complaints Data
-  // =========================
-  const [complaints, setComplaints] = useState([
-    {
-      id: 1,
-      title: "Pothole on MG Road",
-      user: "Rahul Kumar",
-      category: "Roads",
-      location: "MG Road, Bengaluru",
-      status: "In Progress",
-      date: "20 May 2024",
-      image: "https://via.placeholder.com/60",
-    },
-    {
-      id: 2,
-      title: "Garbage Overflowing",
-      user: "Sneha Reddy",
-      category: "Sanitation",
-      location: "HSR Layout",
-      status: "Pending",
-      date: "18 May 2024",
-      image: "https://via.placeholder.com/60",
-    },
-    {
-      id: 3,
-      title: "Water Leakage",
-      user: "Arun Prakash",
-      category: "Water",
-      location: "Koramangala",
-      status: "Resolved",
-      date: "15 May 2024",
-      image: "https://via.placeholder.com/60",
-    },
-  ]);
+  // PAGINATION
+  const [currentPage, setCurrentPage] =
+    useState(1);
 
-  // =========================
-  // Update Complaint Status
-  // =========================
-  const handleUpdate = (id) => {
-    const updated = complaints.map((item) => {
-      if (item.id === id) {
-        if (item.status === "Pending") {
-          return { ...item, status: "In Progress" };
-        } else if (item.status === "In Progress") {
-          return { ...item, status: "Resolved" };
+  // FETCH DATA
+  useEffect(() => {
+    const fetchComplaints =
+      async () => {
+        try {
+          setLoading(true);
+
+          const data =
+            await allComplaints();
+
+          console.log(
+            "Complaints API Data:",
+            data
+          );
+
+          if (
+            Array.isArray(data)
+          ) {
+            setComplaints(data);
+          } else if (
+            data?.complaints
+          ) {
+            setComplaints(
+              data.complaints
+            );
+          } else {
+            setComplaints([]);
+          }
+        } catch (error) {
+          console.error(
+            "Error fetching complaints:",
+            error
+          );
+
+          setError(
+            "Failed to fetch complaints"
+          );
+        } finally {
+          setLoading(false);
         }
-      }
-      return item;
-    });
+      };
 
-    setComplaints(updated);
+    fetchComplaints();
+  }, []);
+
+  // APPLY FILTER
+  const handleFilter = () => {
+    setStatusFilter(tempStatus);
+    setCategoryFilter(
+      tempCategory
+    );
+    setSearchTerm(tempSearch);
+
+    setCurrentPage(1);
   };
 
-  // =========================
-  // Dashboard Counts
-  // =========================
-  const total = complaints.length;
-  const pending = complaints.filter(
-    (item) => item.status === "Pending"
-  ).length;
-  const progress = complaints.filter(
-    (item) => item.status === "In Progress"
-  ).length;
-  const resolved = complaints.filter(
-    (item) => item.status === "Resolved"
-  ).length;
+  // UPDATE STATUS
+  const handleUpdate = async (
+    id,
+    currentStatus
+  ) => {
+    let newStatus =
+      currentStatus;
+
+    if (
+      currentStatus ===
+      "Pending"
+    ) {
+      newStatus =
+        "In Progress";
+    } else if (
+      currentStatus ===
+      "In Progress"
+    ) {
+      newStatus =
+        "Resolved";
+    } else {
+      return;
+    }
+
+    try {
+      await updateComplaintStatus(
+        id,
+        newStatus
+      );
+
+      setComplaints(
+        (prev) =>
+          prev.map((item) =>
+            item._id === id
+              ? {
+                  ...item,
+                  status:
+                    newStatus,
+                }
+              : item
+          )
+      );
+    } catch (error) {
+      console.error(
+        "Error updating status:",
+        error
+      );
+    }
+  };
+
+  // FILTER LOGIC
+  const filteredComplaints = (
+    Array.isArray(
+      complaints
+    )
+      ? complaints
+      : []
+  ).filter((item) => {
+    const statusMatch =
+      statusFilter ===
+        "All Status" ||
+      item?.status ===
+        statusFilter;
+
+    const categoryMatch =
+      categoryFilter ===
+        "All Categories" ||
+      item?.category ===
+        categoryFilter;
+
+    const searchLower =
+      searchTerm.toLowerCase();
+
+    const searchMatch =
+      (item?.title || "")
+        .toLowerCase()
+        .includes(
+          searchLower
+        ) ||
+      (
+        item?.username ||
+        ""
+      )
+        .toLowerCase()
+        .includes(
+          searchLower
+        ) ||
+      (
+        item?.location ||
+        ""
+      )
+        .toLowerCase()
+        .includes(
+          searchLower
+        );
+
+    return (
+      statusMatch &&
+      categoryMatch &&
+      searchMatch
+    );
+  });
+
+  // PAGINATION
+  const complaintsPerPage = 10;
+
+  const indexOfLastComplaint =
+    currentPage *
+    complaintsPerPage;
+
+  const indexOfFirstComplaint =
+    indexOfLastComplaint -
+    complaintsPerPage;
+
+  const currentComplaints =
+    filteredComplaints.slice(
+      indexOfFirstComplaint,
+      indexOfLastComplaint
+    );
+
+  const totalPages =
+    Math.ceil(
+      filteredComplaints.length /
+        complaintsPerPage
+    );
+
+  // COUNTS
+  const total =
+    complaints.length;
+
+  const pending =
+    complaints.filter(
+      (i) =>
+        i?.status ===
+        "Pending"
+    ).length;
+
+  const progress =
+    complaints.filter(
+      (i) =>
+        i?.status ===
+        "In Progress"
+    ).length;
+
+  const resolved =
+    complaints.filter(
+      (i) =>
+        i?.status ===
+        "Resolved"
+    ).length;
+
+  // LOADING
+  if (loading) {
+    return (
+      <h2
+        style={{
+          textAlign:
+            "center",
+        }}
+      >
+        Loading...
+      </h2>
+    );
+  }
+
+  // ERROR
+  if (error) {
+    return (
+      <h2
+        style={{
+          textAlign:
+            "center",
+        }}
+      >
+        {error}
+      </h2>
+    );
+  }
 
   return (
     <div className="dashboard">
-      {/* ================= SIDEBAR ================= */}
-      <div className="sidebar">
+      {/* SIDEBAR */}
+      <div className="sidebar">  
         <div>
-          {/* Logo */}
-          <div className="logo-section">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              <FaCheckCircle size={35} color="#3b82f6" />
-              <h2>CivicTrack</h2>
-            </div>
-            <p>Civic Issue Management</p>
-          </div>
+          
+<h2>CivicTrack</h2>
+          <ul>
+            <li>
+              <Link to="/adminDashboard">
+                <FaHome />  <span>
+                Dashboard</span>
+              </Link>
+            </li>
 
-          {/* Menu */}
-          <div className="menu">
-            <div
-              className="menu-item active"
-              onClick={handleDashboard}
-            >
-              <FaHome />
-              Dashboard
-            </div>
+            <li>
+              <Link to="/allComplaints">
+            <FaClipboardList />    
+                       <span>
+                  All Complaints
+                </span>
+              </Link>
+            </li>
 
-            <div
-              className="menu-item"
-              onClick={handleComplaints}
-            >
-              <FaClipboardList />
-              All Complaints
-            </div>
+            <li>
+              <Link to="/users">
+         <FaUsers />    <span>
 
-            <div className="menu-item" onClick={handleUsers}>
-              <FaUsers />
-              Users
-            </div>
+                Users
+                </span>
+              </Link>
+            </li>
 
-            <div className="menu-item" onClick={handleReports}>
-              <FaChartBar />
-              Reports
-            </div>
-
-            <div className="menu-item" onClick={handleSettings}>
-              <FaCog />
-              Settings
-            </div>
-
-            <div
-              className="menu-item"
-              onClick={handleNotifications}
-            >
-              <FaBell />
-              Notifications
-            </div>
-
-            <div className="menu-item" onClick={handleLogout}>
-              <FaSignOutAlt />
-              Logout
-            </div>
-          </div>
+            <li>
+              <Link to="/login">
+              <FaSignOutAlt />   <span>
+                Logout  </span>
+              </Link>
+            </li>
+          </ul>
         </div>
 
-        {/* Help Box */}
+        {/* HELP BOX */}
         <div className="help-box">
           <FaHeadset size={40} />
-          <h3>Need Help?</h3>
-          <p>Contact support for issues</p>
-          <button onClick={handleSupport}>
+
+          <h3>
+            Need Help?
+          </h3>
+
+          <Link to="/support">
             Contact Support
-          </button>
+          </Link>
         </div>
       </div>
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* MAIN */}
       <div className="main">
-        {/* Topbar */}
+        {/* TOPBAR */}
         <div className="topbar">
-          <div>
-            <h1>Admin Dashboard</h1>
-            <p>Overview of all reported issues</p>
-          </div>
+          <h1>
+            Admin Dashboard
+          </h1>
 
-          <div className="topbar-right">
-            <div
-              className="notification"
-              onClick={handleNotifications}
-            >
-              <FaBell />
-              <div className="badge">3</div>
-            </div>
-
-            <div className="admin-user">
-              <img
-                src="https://via.placeholder.com/40"
-                alt="Admin"
-                style={{ borderRadius: "50%" }}
-              />
-              <span>Admin User</span>
-            </div>
-          </div>
         </div>
 
-        {/* Summary Cards */}
+        {/* CARDS */}
         <div className="cards">
           <div className="card">
-            <FaClipboardList size={35} color="#2563eb" />
-            <h3>Total Complaints</h3>
+            <FaClipboardList
+              size={35}
+              color="#2563eb"
+            />
+            <h3>
+              Total
+              Complaints
+            </h3>
             <p>{total}</p>
           </div>
 
           <div className="card">
-            <FaClock size={35} color="orange" />
-            <h3>Pending</h3>
-            <p>{pending}</p>
+            <FaClock
+              size={35}
+              color="orange"
+            />
+            <h3>
+              Pending
+            </h3>
+            <p>
+              {pending}
+            </p>
           </div>
 
           <div className="card">
-            <FaExclamationCircle size={35} color="#2563eb" />
-            <h3>In Progress</h3>
-            <p>{progress}</p>
+            <FaExclamationCircle
+              size={35}
+              color="#f59e0b"
+            />
+            <h3>
+              In Progress
+            </h3>
+            <p>
+              {progress}
+            </p>
           </div>
 
           <div className="card">
-            <FaCheckCircle size={35} color="green" />
-            <h3>Resolved</h3>
-            <p>{resolved}</p>
+            <FaCheckCircle
+              size={35}
+              color="green"
+            />
+            <h3>
+              Resolved
+            </h3>
+            <p>
+              {resolved}
+            </p>
           </div>
         </div>
 
-        {/* Filters */}
+        {/* FILTERS */}
         <div className="filters">
-          <select>
-            <option>All Status</option>
-            <option>Pending</option>
-            <option>In Progress</option>
-            <option>Resolved</option>
+          <select
+            value={
+              tempStatus
+            }
+            onChange={(e) =>
+              setTempStatus(
+                e.target.value
+              )
+            }
+          >
+            <option>
+              All Status
+            </option>
+            <option>
+              Pending
+            </option>
+            <option>
+              In Progress
+            </option>
+            <option>
+              Resolved
+            </option>
           </select>
 
-          <select>
-            <option>All Categories</option>
-            <option>Roads</option>
-            <option>Sanitation</option>
-            <option>Water</option>
+          <select
+            value={
+              tempCategory
+            }
+            onChange={(e) =>
+              setTempCategory(
+                e.target.value
+              )
+            }
+          >
+            <option>
+              All Categories
+            </option>
+            <option>
+              Roads
+            </option>
+            <option>
+              Sanitation
+            </option>
+            <option>
+              Water
+            </option>
           </select>
 
-          <div className="date-box">
-            <FaCalendarAlt />
-            <input type="date" />
-          </div>
-
+          {/* SINGLE DATE FIELD */}
           <div className="date-box">
             <FaCalendarAlt />
             <input type="date" />
@@ -280,106 +478,212 @@ function AdminDashboard() {
             type="text"
             placeholder="Search complaints..."
             className="search"
+            value={
+              tempSearch
+            }
+            onChange={(e) =>
+              setTempSearch(
+                e.target.value
+              )
+            }
           />
 
           <button
             className="filter-btn"
-            onClick={handleFilter}
+            onClick={
+              handleFilter
+            }
           >
             <FaFilter />
             Filter
           </button>
         </div>
 
-        {/* Complaints Table */}
+        {/* TABLE */}
         <div className="table-box">
           <table>
             <thead>
               <tr>
                 <th>#</th>
-                <th>Complaint</th>
-                <th>Reporter</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Status</th>
+                <th>
+                  Complaint
+                </th>
+                <th>User</th>
+                <th>
+                  Category
+                </th>
+                <th>
+                  Location
+                </th>
+                <th>
+                  Status
+                </th>
                 <th>Date</th>
-                <th>Action</th>
+                <th>
+                  Action
+                </th>
               </tr>
             </thead>
 
             <tbody>
-              {complaints.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{index + 1}</td>
-
-                  <td>
-                    <div className="complaint-info">
-                      <img
-                        src={item.image}
-                        className="complaint-img"
-                        alt={item.title}
-                      />
-                      <div>
-                        <h4>{item.title}</h4>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td>{item.user}</td>
-                  <td>{item.category}</td>
-                  <td>{item.location}</td>
-
-                  <td>
-                    <span
-                      className={
-                        item.status === "Pending"
-                          ? "status pending"
-                          : item.status === "In Progress"
-                          ? "status progress"
-                          : "status resolved"
+              {currentComplaints.length >
+              0 ? (
+                currentComplaints.map(
+                  (
+                    item,
+                    index
+                  ) => (
+                    <tr
+                      key={
+                        item?._id ||
+                        index
                       }
                     >
-                      {item.status}
-                    </span>
-                  </td>
+                      <td>
+                        {indexOfFirstComplaint +
+                          index +
+                          1}
+                      </td>
 
-                  <td>{item.date}</td>
+                      <td>
+                        {item?.title ||
+                          "N/A"}
+                      </td>
 
-                  <td>
-                    <button
-                      className="update-btn"
-                      onClick={() =>
-                        handleUpdate(item.id)
-                      }
-                    >
-                      Update Status
-                    </button>
+                      <td>
+                        {item?.username ||
+                          "Unknown"}
+                      </td>
+
+                      <td>
+                        {item?.category ||
+                          "N/A"}
+                      </td>
+
+                      <td>
+                        {item?.location ||
+                          "N/A"}
+                      </td>
+
+                      <td>
+                        <span
+                          className={
+                            item?.status ===
+                            "Pending"
+                              ? "pending"
+                              : item?.status ===
+                                "In Progress"
+                              ? "progress"
+                              : "resolved"
+                          }
+                        >
+                          {
+                            item?.status
+                          }
+                        </span>
+                      </td>
+
+                      <td>
+                        {item?.date
+                          ? new Date(
+                              item.date
+                            ).toLocaleDateString(
+                              "en-IN"
+                            )
+                          : "N/A"}
+                      </td>
+
+                      <td>
+                        <button
+                          className="update-btn"
+                          disabled={
+                            item?.status ===
+                            "Resolved"
+                          }
+                          onClick={() =>
+                            handleUpdate(
+                              item._id,
+                              item.status
+                            )
+                          }
+                        >
+                          {item?.status ===
+                          "Resolved"
+                            ? "Done"
+                            : "Update"}
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                )
+              ) : (
+                <tr>
+                  <td
+                    colSpan="8"
+                    style={{
+                      textAlign:
+                        "center",
+                    }}
+                  >
+                    No
+                    complaints
+                    found
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
 
-          {/* Pagination */}
+          {/* PAGINATION */}
           <div className="pagination">
-            <button className="page-btn">
-              {"<"}
+            <button
+              disabled={
+                currentPage ===
+                1
+              }
+              onClick={() =>
+                setCurrentPage(
+                  (
+                    prev
+                  ) =>
+                    prev -
+                    1
+                )
+              }
+            >
+              Previous
             </button>
 
-            <button className="page-btn page-active">
-              1
-            </button>
+            <span>
+              Page{" "}
+              {totalPages ===
+              0
+                ? 0
+                : currentPage}{" "}
+              of{" "}
+              {
+                totalPages
+              }
+            </span>
 
-            <button className="page-btn">
-              2
-            </button>
-
-            <button className="page-btn">
-              3
-            </button>
-
-            <button className="page-btn">
-              {">"}
+            <button
+              disabled={
+                currentPage ===
+                  totalPages ||
+                totalPages ===
+                  0
+              }
+              onClick={() =>
+                setCurrentPage(
+                  (
+                    prev
+                  ) =>
+                    prev +
+                    1
+                )
+              }
+            >
+              Next
             </button>
           </div>
         </div>

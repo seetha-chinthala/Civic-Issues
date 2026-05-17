@@ -22,12 +22,12 @@ function Navbar() {
           CivicTrack
         </h2>
 
-        <FaBars style={styles.menuIcon} />
+        
       </div>
 
       {/* Right Section */}
       <div style={styles.rightSection}>
-        <FaBell style={styles.bellIcon} />
+        
 
         <div style={styles.profileContainer}>
           <img
@@ -40,9 +40,8 @@ function Navbar() {
             seetha
           </span>
 
-          <FaChevronDown
-            style={styles.dropdown}
-          />
+          
+          
         </div>
       </div>
     </nav>
@@ -103,12 +102,6 @@ const styles = {
     gap: "20px",
   },
 
-  bellIcon: {
-    color: "white",
-    fontSize: "20px",
-    cursor: "pointer",
-  },
-
   profileContainer: {
     display: "flex",
     alignItems: "center",
@@ -127,12 +120,8 @@ const styles = {
   username: {
     color: "white",
     fontWeight: "500",
-  },
+  }
 
-  dropdown: {
-    color: "white",
-    fontSize: "14px",
-  },
 };
 
 export default Navbar;

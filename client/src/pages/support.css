@@ -1,0 +1,265 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #f4f7fb;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.support-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    height: calc(100vh - 70px);
+    background: #081b4b;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 70px;
+    /* avoids navbar overlap */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+
+/* LOGO */
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+
+/* MENU */
+
+.menu {
+    margin-top: 40px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 16px;
+    color: #d1d5db;
+}
+
+.menu-item:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.menu-item.active {
+    background: #2563eb;
+    color: white;
+}
+
+
+/* =========================
+   HELP BOX
+========================= */
+
+.help-box {
+    background: #0f2d72;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.help-box h3 {
+    margin: 10px 0;
+}
+
+.help-box button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #2563eb;
+    color: rgb(223, 218, 218);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.help-box button:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   SUPPORT CONTAINER
+========================= */
+
+.support-container {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 30px;
+}
+
+
+/* CARD */
+
+.support-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 500px;
+}
+
+
+/* TITLE */
+
+.title {
+    margin-bottom: 10px;
+    color: #1e293b;
+    font-size: 30px;
+}
+
+
+/* TEXT */
+
+.text {
+    color: gray;
+    margin-bottom: 20px;
+}
+
+
+/* INFO */
+
+.info-box {
+    margin-bottom: 20px;
+    line-height: 2;
+}
+
+
+/* TEXTAREA */
+
+.textarea {
+    width: 100%;
+    height: 130px;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    resize: none;
+    font-size: 15px;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+
+/* BUTTON */
+
+.send-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 16px;
+}
+
+.send-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media screen and (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+        min-width: 220px;
+    }
+    .support-container {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 768px) {
+    .support-page {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+    }
+    .support-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 30px 20px;
+    }
+    .support-card {
+        padding: 25px;
+    }
+    .title {
+        font-size: 26px;
+    }
+    .menu-item {
+        gap: 15px;
+    }
+}

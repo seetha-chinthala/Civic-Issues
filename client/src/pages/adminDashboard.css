@@ -1,3 +1,7 @@
+/* =========================
+   GLOBAL
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,36 +9,61 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+html,
 body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     background: #f5f7fb;
 }
 
-.dashboard {
-    display: flex;
-    min-height: 100vh;
+#root {
+    width: 100%;
+    height: 100%;
 }
 
 
-/* SIDEBAR */
+/* =========================
+   DASHBOARD LAYOUT
+========================= */
+
+.dashboard {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #f5f7fb;
+    padding-top: 50px;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
-    width: 270px;
+    width: 260px;
+    min-width: 260px;
+    height: 100vh;
     background: #081b4b;
     color: white;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .logo-section h2 {
-    font-size: 30px;
-    margin-bottom: 5px;
-}
-
-.logo-section p {
-    color: #cbd5e1;
-    font-size: 14px;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .menu {
@@ -49,11 +78,14 @@ body {
     border-radius: 10px;
     margin-bottom: 10px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease;
+    font-size: 16px;
+    color: gray;
 }
 
 .menu-item:hover {
     background: #2563eb;
+    color: #eee
 }
 
 .active {
@@ -65,6 +97,11 @@ body {
     padding: 20px;
     border-radius: 15px;
     text-align: center;
+    margin-top: 20px;
+}
+
+.help-box h3 {
+    margin: 10px 0;
 }
 
 .help-box button {
@@ -73,21 +110,37 @@ body {
     padding: 12px;
     border: none;
     background: #2563eb;
-    color: white;
+    color: rgb(223, 218, 218);
     border-radius: 10px;
     cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.help-box button:hover {
+    background: #1d4ed8;
 }
 
 
-/* MAIN */
+/* =========================
+   MAIN CONTENT
+========================= */
 
 .main {
     flex: 1;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 25px;
+    padding-left: 300px;
+    background: #f5f7fb;
 }
 
 
-/* TOPBAR */
+/* =========================
+   TOPBAR
+========================= */
 
 .topbar {
     display: flex;
@@ -96,45 +149,80 @@ body {
     margin-bottom: 30px;
 }
 
+.topbar h1 {
+    font-size: 32px;
+    color: #111827;
+}
+
 .topbar-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.notification {
-    position: relative;
+.top-icon {
     font-size: 22px;
+    color: #2563eb;
     cursor: pointer;
 }
 
-.badge {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: red;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.notification-wrapper {
+    position: relative;
 }
 
-.admin-user {
+.notification-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+
+/* =========================
+   ADMIN PROFILE
+========================= */
+
+.admin-profile {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: white;
-    padding: 10px 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.admin-profile h4 {
+    font-size: 16px;
+}
+
+.admin-profile p {
+    font-size: 12px;
+    color: gray;
 }
 
 
-/* CARDS */
+/* =========================
+   CARDS
+========================= */
 
 .cards {
     display: grid;
@@ -152,22 +240,26 @@ body {
 
 .card h3 {
     color: gray;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    font-size: 16px;
 }
 
 .card p {
-    font-size: 35px;
+    font-size: 32px;
     color: #2563eb;
     font-weight: bold;
 }
 
 
-/* FILTER BAR */
+/* =========================
+   FILTERS
+========================= */
 
 .filters {
     display: flex;
     gap: 15px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .filters select,
@@ -176,106 +268,11 @@ body {
     border-radius: 10px;
     border: 1px solid #ddd;
     outline: none;
+    min-width: 160px;
 }
 
 .search {
     flex: 1;
-}
-
-
-/* TABLE */
-
-.table-box {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    text-align: left;
-    background: #f3f4f6;
-    padding: 15px;
-}
-
-td {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-}
-
-.complaint-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.complaint-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
-.status {
-    padding: 7px 14px;
-    border-radius: 20px;
-    color: white;
-    font-size: 14px;
-}
-
-.pending {
-    background: orange;
-}
-
-.progress {
-    background: #2563eb;
-}
-
-.resolved {
-    background: green;
-}
-
-.update-btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-}
-
-.update-btn:hover {
-    background: #1d4ed8;
-}
-
-
-/* PAGINATION */
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.page-btn {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.page-active {
-    background: #2563eb;
-    color: white;
 }
 
 .date-box {
@@ -304,8 +301,199 @@ td {
     padding: 12px 20px;
     border-radius: 10px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .filter-btn:hover {
     background: #1d4ed8;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-box {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+th {
+    text-align: left;
+    background: #f3f4f6;
+    padding: 15px;
+    font-size: 15px;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.pending {
+    background: orange;
+    color: white;
+    border-radius: 50px;
+    padding: 6px 16px;
+}
+
+.progress {
+    background: #2563eb;
+    color: white;
+    border-radius: 50px;
+    padding: 6px 16px;
+}
+
+.resolved {
+    background: green;
+    color: white;
+    border-radius: 50px;
+    padding: 6px 16px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.update-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.update-btn:hover {
+    background: #1d4ed8;
+}
+
+.update-btn:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   PAGINATION
+========================= */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   TABLET (768px - 1200px)
+========================= */
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+    .sidebar {
+        width: 50px;
+        min-width: 50px;
+        padding: 1px;
+    }
+    .main {
+        width: 100%;
+        padding: 18px;
+        padding-left: 55px;
+    }
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .filters select,
+    .filters input,
+    .date-box {
+        flex: 1 1 45%;
+    }
+    .search {
+        flex: 1 1 100%;
+    }
+    .filter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* =========================
+   MOBILE (<768px)
+========================= */
+
+@media screen and (max-width: 767px) {
+    html,
+    body {
+        overflow-y: auto;
+    }
+    .dashboard {
+        flex-direction: column;
+        height: auto;
+    }
+    .sidebar {
+        width: 50px;
+        min-width: 50px;
+        height: auto;
+    }
+    .main {
+        width: 100%;
+        padding-left: 50px;
+        height: auto;
+        padding: 15px;
+    }
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .cards {
+        grid-template-columns: 1fr;
+    }
+    .filters {
+        flex-direction: column;
+    }
+    .filters select,
+    .filters input,
+    .date-box,
+    .filter-btn {
+        width: 100%;
+    }
+    .pagination {
+        flex-direction: column;
+    }
 }

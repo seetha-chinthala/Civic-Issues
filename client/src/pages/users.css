@@ -1,0 +1,71 @@
+.users-container {
+    padding: 30px;
+    background: #f4f7fb;
+    min-height: 100vh;
+}
+
+.users-title {
+    font-size: 32px;
+    margin-bottom: 25px;
+    color: #1e293b;
+}
+
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.user-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    background: #2563eb;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-card h2 {
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.user-card p {
+    color: gray;
+    margin-bottom: 15px;
+}
+
+.admin-role {
+    background: #16a34a;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.citizen-role {
+    background: #2563eb;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+}

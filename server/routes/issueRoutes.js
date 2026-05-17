@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 const uploads = require("../multerConfig");
+
+const authMiddleware = require("../middleware/authMiddleware");
+
 router.use(bodyParser.json());
 
 const Issue = require("../models/Issue");
+router.use("/uploads", express.static("uploads"));
 
-/* CREATE ISSUE */
 
 
 
@@ -17,13 +20,15 @@ router.post(
     uploads.single("image"),
     async(req, res) => {
         try {
-            const { title, description, location } =
+            const { title, category, description, location, date, userId } =
             req.body;
 
             const issue = new Issue({
                 title,
+                category,
                 description,
                 location,
+                date,
                 image: req.file ?
                     req.file.filename : "",
             });
@@ -49,12 +54,13 @@ router.post(
 router.get("/allComplaints", async(req, res) => {
 
     const issues = await Issue.find();
-
+    console.log("issues", issues)
     res.json(issues);
+
 });
 
 /* UPDATE ISSUE STATUS */
-router.put("/updateStatus/:id", async(req, res) => {
+router.put("/updateStatus/:id", authMiddleware, async(req, res) => {
 
     const updated = await Issue.findByIdAndUpdate(
         req.params.id,
@@ -62,6 +68,61 @@ router.put("/updateStatus/:id", async(req, res) => {
     );
 
     res.json(updated);
+});
+
+//my Complaints
+router.get("/myComplaints", authMiddleware, async(req, res) => {
+
+    const issues = await Issue.find({
+        userId: req.user.id,
+    });
+    console.log("mee to", req.user)
+    console.log(issues)
+    res.json(issues);
+});
+
+
+
+//feedback
+router.put(
+    "/allComplaints/feedback/:id",
+    authMiddleware,
+    uploads.single("image"),
+    async(req, res) => {
+        try {
+            const updated = await Issue.findByIdAndUpdate(
+                req.params.id, {
+                    feedbackImage: req.file ? req.file.filename : null,
+                }, { new: true }
+            );
+
+            res.json({
+                message: "Feedback submitted successfully",
+                data: updated,
+            });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
+);
+
+//delete complaint
+router.delete("/allComplaints/:id", authMiddleware, async(req, res) => {
+    try {
+
+        await Issue.findByIdAndDelete(req.params.id);
+
+        res.json({
+            message: "Complaint deleted successfully",
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            error: err.message,
+        });
+
+    }
 });
 
 module.exports = router;

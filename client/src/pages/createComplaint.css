@@ -1,77 +1,156 @@
-/* GLOBAL */
+/* =========================
+   GLOBAL
+========================= */
 
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
     font-family: "Segoe UI", sans-serif;
     background: #f4f7fb;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 
-/* PAGE */
+/* =========================
+   CUSTOM SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e5e7eb;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   PAGE LAYOUT
+========================= */
 
 .create-container {
     display: flex;
-    min-height: 100vh;
+    min-height: calc(100vh - 70px);
+    background: #f4f7fb;
+    padding-top: 70px;
+    /* navbar height */
 }
 
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
     width: 240px;
-    background: white;
-    border-right: 1px solid #e2e8f0;
+    min-width: 240px;
+    background: #081b4b;
+    color: white;
     padding: 20px;
     position: fixed;
-    top: 0;
+    top: 120px;
+    /* below navbar */
     left: 0;
-    height: 100vh;
-    box-sizing: border-box;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    /* scroll only if needed */
+    overflow-x: hidden;
+    z-index: 999;
 }
 
-.sidebar h2 {
-    color: #2563eb;
-    margin-bottom: 40px;
-    font-size: 28px;
-    font-weight: 700;
-}
+
+/* MENU */
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
 .sidebar li {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
+    margin-top: 20px;
 }
 
-.sidebar a,
-.sidebar button {
+.sidebar a {
     display: flex;
     align-items: center;
-    width: 100%;
-    padding: 14px 16px;
-    border: none;
-    border-radius: 12px;
-    background: transparent;
     text-decoration: none;
-    color: #334155;
+    padding: 14px 16px;
+    border-radius: 12px;
+    color: #d1d5db;
+    transition: 0.3s ease;
     font-size: 15px;
     font-weight: 500;
-    cursor: pointer;
-    transition: 0.3s;
-    box-sizing: border-box;
+    padding-top: 20px;
 }
 
-.sidebar a:hover,
-.sidebar button:hover {
-    background: #eff6ff;
-    color: #2563eb;
+.sidebar a:hover {
+    background: #2563eb;
+    color: white;
 }
 
 
-/* FORM AREA */
+/* =========================
+   HELP BOX
+========================= */
+
+.help-box {
+    background: #0f2d72;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+}
+
+.help-box h3 {
+    margin: 12px 0;
+    font-size: 20px;
+}
+
+.help-box a {
+    display: block;
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: rgb(223, 218, 218);
+    text-decoration: none;
+    transition: 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.help-box a:hover {
+    background: #1d4ed8;
+    color: white;
+}
+
+
+/* =========================
+   FORM SECTION
+========================= */
 
 .form-section {
     margin-left: 240px;
@@ -79,12 +158,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 50px 30px;
-    box-sizing: border-box;
+    padding: 40px 20px;
 }
 
 
-/* FORM */
+/* =========================
+   FORM
+========================= */
 
 .complaint-form {
     width: 100%;
@@ -95,23 +175,27 @@ body {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 20px;
+    margin-bottom: 50px;
 }
 
 
 /* TITLE */
 
 .complaint-form h1 {
-    margin: 0;
     color: #0f172a;
     font-size: 34px;
+    text-align: center;
 }
 
 
-/* INPUTS */
+/* =========================
+   INPUTS
+========================= */
 
 .complaint-form input,
-.complaint-form textarea {
+.complaint-form textarea,
+.complaint-form select {
     width: 100%;
     padding: 16px 18px;
     border-radius: 14px;
@@ -119,8 +203,7 @@ body {
     font-size: 16px;
     background: #f8fafc;
     color: #0f172a;
-    box-sizing: border-box;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 
@@ -132,10 +215,11 @@ body {
 }
 
 
-/* INPUT FOCUS */
+/* FOCUS */
 
 .complaint-form input:focus,
-.complaint-form textarea:focus {
+.complaint-form textarea:focus,
+.complaint-form select:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
@@ -151,42 +235,24 @@ body {
 }
 
 
-/* DATE INPUT */
-
-input[type="date"] {
-    color: #0f172a;
-    appearance: auto;
-    -webkit-appearance: auto;
-    cursor: pointer;
-}
-
-
-/* DATE TEXT */
-
-input[type="date"]::-webkit-datetime-edit {
-    color: #0f172a;
-}
-
-
-/* CALENDAR ICON */
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 1;
-    cursor: pointer;
-    filter: invert(25%);
-}
-
-
 /* FILE INPUT */
 
 input[type="file"] {
     background: white;
     cursor: pointer;
-    color: #0f172a;
 }
 
 
-/* BUTTON */
+/* DATE INPUT */
+
+input[type="date"] {
+    cursor: pointer;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
 
 .complaint-form button {
     background: linear-gradient( 135deg, #2563eb, #1d4ed8);
@@ -197,7 +263,7 @@ input[type="file"] {
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .complaint-form button:hover {
@@ -205,8 +271,15 @@ input[type="file"] {
     box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
 }
 
+.complaint-form button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
 
-/* MESSAGE */
+
+/* =========================
+   MESSAGE
+========================= */
 
 .message {
     padding: 14px;
@@ -214,19 +287,56 @@ input[type="file"] {
     background: #dcfce7;
     color: #15803d;
     font-weight: 600;
+    text-align: center;
 }
 
 
-/* MOBILE */
+/* =========================
+   TABLET
+========================= */
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1024px) {
     .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
+        width: 200px;
+        min-width: 200px;
     }
+    .form-section {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+    .complaint-form {
+        padding: 30px;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 768px) {
     .create-container {
         flex-direction: column;
+        padding-top: 70px;
+    }
+    .sidebar {
+        position: relative;
+        top: 0;
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+    .sidebar ul {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .sidebar li {
+        margin-bottom: 0;
+    }
+    .help-box {
+        margin-top: 20px;
     }
     .form-section {
         margin-left: 0;
@@ -235,5 +345,19 @@ input[type="file"] {
     }
     .complaint-form {
         padding: 25px;
+        border-radius: 18px;
+    }
+    .complaint-form h1 {
+        font-size: 28px;
+    }
+    .complaint-form input,
+    .complaint-form textarea,
+    .complaint-form select {
+        padding: 14px;
+        font-size: 15px;
+    }
+    .complaint-form button {
+        padding: 16px;
+        font-size: 16px;
     }
 }

@@ -1,104 +1,146 @@
 import React, { useEffect, useState } from "react";
-import "./myComplaints.css";
-import { Link } from "react-router-dom";
-import { getComplaints } from "../api";
+import { useNavigate ,Link} from "react-router-dom"; 
+
+import { getMyComplaints } from "../api";
+import {
+  FaHome,
+  FaClipboardList,
+  FaUsers,
+  FaBell,
+  FaSignOutAlt,
+  FaHeadset,
+  FaFilter,
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaClock,
+  FaExclamationCircle,
+} from "react-icons/fa";
+
+
+
 
 function MyComplaints() {
+  const navigate = useNavigate();
+
+
+  
+
   const [complaints, setComplaints] = useState([]);
 
   useEffect(() => {
-    getComplaints()
-      .then((data) => {
-        console.log(data);
-        setComplaints(data);
-      })
-      .catch((err) => console.log(err));
+    fetchComplaints();
   }, []);
 
+  const fetchComplaints = async () => {
+
+    try {
+
+      const data = await getMyComplaints();
+
+      if (Array.isArray(data)) {
+        setComplaints(data);
+      } else {
+        console.log("My complaints error:", data);
+        setComplaints([]);
+      }
+
+    } catch (error) {
+
+      console.log("Error fetching complaints:", error);
+
+      setComplaints([]);
+    }
+  };
+
   return (
-    <div className="container">
-      {/* Sidebar */}
+
+
+
+    <div style={{ padding: "20px" }}>
       <div className="sidebar">
-        <h2>CivicTrack</h2>
+        <div>
+          
+<h2>CivicTrack</h2>
+          <ul>
+            <li>
+              <Link to="/userDashboard">
+                <FaHome />  <span>
+                Dashboard</span>
+              </Link>
+            </li>
 
-        <ul>
-          <li>
-            <Link to="/admin">Dashboard</Link>
-          </li>
-
-          <li>
-            <Link to="/create">Create Complaint</Link>
-          </li>
-
-          <li className="active">
-            <Link to="/">My Complaints</Link>
-          </li>
-
-          <li>
-            <button
-              className="logout-btn"
-              onClick={() => {
-                alert("Logged out successfully");
-              }}
-            >
-              Logout
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      {/* Main Content */}
-      <div className="main">
-        <h1>My Complaints</h1>
-        <p>Track your complaints status</p>
-
-        {complaints.length === 0 ? (
-          <p>No complaints found</p>
-        ) : (
-          complaints.map((item, index) => (
-            <div className="card" key={item._id || item.id || index}>
-              <img
-                src={
-                  item.image ||
-                  "https://images.unsplash.com/photo-1581091215367-59ab6dcef10d?q=80&w=400"
-                }
-                alt="complaint"
-              />
-
-              <div className="card-content">
-                <h3>{item.title}</h3>
-
-                <p>📍 {item.location}</p>
-
-                <p>📅 {item.date}</p>
-              </div>
-
-              <div className="right-section">
-                <span
-                  className={
-                    item.status === "Resolved"
-                      ? "resolved"
-                      : item.status === "Pending"
-                      ? "pending"
-                      : "progress"
-                  }
-                >
-                  {item.status}
+            <li>
+              <Link to="/createComplaint">
+                <FaUsers />         <span>
+                  Create Complaint
                 </span>
+              </Link>
+            </li>
 
-                <button
-                  className="arrow-btn"
-                  onClick={() => {
-                    alert("Complaint Details");
-                  }}
-                >
-                  ➜
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+            <li>
+              <Link to="/myComplaints">
+            <FaClipboardList />    <span>
+                My Complaints
+                </span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/login">
+              <FaSignOutAlt />   <span>
+                Logout  </span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* HELP BOX */}
+        <div className="help-box">
+          <FaHeadset size={40} />
+
+          <h3>
+            Need Help?
+          </h3>
+
+          <Link to="/support">
+            Contact Support
+          </Link>
+        </div>
       </div>
+
+                    
+    
+        
+
+
+      <h1>My Complaints</h1>
+
+      {complaints.length === 0 ? (
+
+        <p>No Complaints Found</p>
+
+      ) : (
+
+        complaints.map((item) => (
+
+          <div
+            key={item._id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "15px",
+              marginTop: "10px",
+              borderRadius: "10px",
+            }}
+          >
+            <h3>{item.title}</h3>
+
+            <p>{item.description}</p>
+
+            <p>Status: {item.status}</p>
+
+          </div>
+        ))
+      )}
     </div>
   );
 }
