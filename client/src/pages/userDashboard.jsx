@@ -32,10 +32,10 @@ function UserDashboard() {
   const complaintsPerPage = 5;
 
   // feedback state (persistent)
-  const [uploadedFeedback, setUploadedFeedback] = useState(() => {
-    const saved = localStorage.getItem("uploadedFeedback");
-    return saved ? new Set(JSON.parse(saved)) : new Set();
-  });
+  //const [uploadedFeedback, setUploadedFeedback] = useState(() => {
+    //const saved = localStorage.getItem("uploadedFeedback");
+    //return saved ? new Set(JSON.parse(saved)) : new Set();
+  //});
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -59,59 +59,77 @@ function UserDashboard() {
   }, []);
 
   // FEEDBACK UPLOAD
-const handleFeedbackUpload = async (file, complaintId) => {
+const handleFeedbackUpload = async (
+  file,
+  complaintId
+) => {
   if (!file) return;
 
   try {
-    const formData = new FormData();
+    const formData =
+      new FormData();
 
-    formData.append("image", file);
-
-    const response = await fetch(
-      `http://localhost:5000/api/allComplaints/feedback/${complaintId}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      }
+    formData.append(
+      "image",
+      file
     );
 
-    const data = await response.json();
+    const response =
+      await fetch(
+        `http://localhost:5000/api/allComplaints/feedback/${complaintId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "token"
+            )}`,
+          },
+          body: formData,
+        }
+      );
 
-    alert("Feedback uploaded successfully ✅");
+    const data =
+      await response.json();
 
-    // update complaints instantly
+    alert(
+      "Feedback uploaded successfully ✅"
+    );
+
+    // update UI instantly
     setComplaints((prev) =>
       prev.map((item) =>
-        item._id === complaintId
+        item._id ===
+        complaintId
           ? {
               ...item,
-              feedbackImage: data.data.feedbackImage,
+              feedbackImage:
+                data.data
+                  .feedbackImage,
             }
           : item
       )
     );
+        ////setUploadedFeedback((prev) => {
+      //const updated = new Set(prev);
 
-    setUploadedFeedback((prev) => {
-      const updated = new Set(prev);
+      //updated.add(complaintId);
 
-      updated.add(complaintId);
-
-      localStorage.setItem(
-        "uploadedFeedback",
-        JSON.stringify([...updated])
-      );
-
-      return updated;
-    });
-
+      //localStorage.setItem(
+       // "uploadedFeedback",
+        //JSON.stringify([...updated])
+      //);
+    //});
   } catch (err) {
     console.log(err);
-    alert("Upload failed ❌");
+
+    alert(
+      "Upload failed ❌"
+    );
   }
 };
+
+
+      
 
   // COUNTS
   const pending = complaints.filter((item) => item.status === "Pending").length;
@@ -275,7 +293,7 @@ const handleFeedbackUpload = async (file, complaintId) => {
 
                     <tbody>
                       {currentComplaints.map((item, index) => {
-                        const isUploaded = uploadedFeedback.has(item._id);
+                       // const isUploaded = uploadedFeedback.has(item._id);
 
                         return (
                           <tr key={item._id || index}>
@@ -302,34 +320,61 @@ const handleFeedbackUpload = async (file, complaintId) => {
                             </td>
 
                             {/* FEEDBACK */}
-                            <td className="action-column">
-                              <label htmlFor={`feedback-${index}`}>
-                                <div
-                                  className="feedback-btn"
-                                  style={{
-                                    opacity: isUploaded ? 0.5 : 1,
-                                    pointerEvents: isUploaded ? "none" : "auto",
-                                    cursor: isUploaded ? "not-allowed" : "pointer",
-                                  }}
-                                >
-                                  {isUploaded ? "✔ Uploaded" : "📤 Feedback"}
-                                </div>
-                              </label>
+<td className="action-column">
+  <label
+    htmlFor={`feedback-${index}`}
+  >
+    <div
+      className="feedback-btn"
+      style={{
+        opacity:
+          item.status !==
+            "Resolved" ||
+          item.feedbackImage
+            ? 0.5
+            : 1,
 
-                              <input
-                                id={`feedback-${index}`}
-                                type="file"
-                                hidden
-                                disabled={isUploaded}
-                                onChange={(e) =>
-                                  handleFeedbackUpload(
-                                    e.target.files[0],
-                                    item._id
-                                  )
-                                }
-                              />
-                            </td>
+        pointerEvents:
+          item.status !==
+            "Resolved" ||
+          item.feedbackImage
+            ? "none"
+            : "auto",
 
+        cursor:
+          item.status !==
+            "Resolved" ||
+          item.feedbackImage
+            ? "not-allowed"
+            : "pointer",
+      }}
+    >
+      {item.feedbackImage
+        ? "✔ Uploaded"
+        : item.status !==
+          "Resolved"
+        ? "Disabled"
+        : "📤 Feedback"}
+    </div>
+  </label>
+
+  <input
+    id={`feedback-${index}`}
+    type="file"
+    hidden
+    disabled={
+      item.status !==
+        "Resolved" ||
+      item.feedbackImage
+    }
+    onChange={(e) =>
+      handleFeedbackUpload(
+        e.target.files[0],
+        item._id
+      )
+    }
+  />
+</td>
                             {/* VIEW */}
                             <td className="view-column">
                               <button
@@ -432,7 +477,7 @@ const handleFeedbackUpload = async (file, complaintId) => {
 
 
 <p><strong>Description:</strong> {selectedComplaint.description}</p>
-            <p><strong>Description:</strong> {selectedComplaint.description}</p>
+            <p><strong>Category:</strong> {selectedComplaint.category}</p>
             <p><strong>Status:</strong> {selectedComplaint.status}</p>
             <p><strong>Location:</strong> {selectedComplaint.location}</p>
 

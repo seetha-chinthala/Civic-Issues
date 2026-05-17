@@ -243,44 +243,71 @@ function MyComplaints() {
 
                 {/* Feedback Upload */}
                 <div className="feedback-section">
-                  {!item.feedbackImage ? (
-                    <>
-                      <label className="upload-btn">
-                        <FaUpload />
-                        Upload Feedback
 
-                        <input
-                          type="file"
-                          hidden
-                          onChange={(e) =>
-                            handleFeedbackUpload(
-                              item._id,
-                              e.target.files[0]
-                            )
-                          }
-                        />
-                      </label>
-                    </>
-                  ) : (
-                    <>
-                      <img
-                        src={`http://localhost:5000/uploads/${item.feedbackImage}`}
-                        alt="feedback"
-                        className="feedback-image"
-                      />
+  {!item.feedbackImage ? (
 
-                      <button
-                        className="undo-btn"
-                        onClick={() =>
-                          handleUndo(item._id)
-                        }
-                      >
-                        <FaUndo />
-                        Re-upload
-                      </button>
-                    </>
-                  )}
-                </div>
+    <label
+      className="upload-btn"
+      style={{
+        opacity:
+          item.status !== "Resolved"
+            ? 0.5
+            : 1,
+
+        pointerEvents:
+          item.status !== "Resolved"
+            ? "none"
+            : "auto",
+
+        cursor:
+          item.status !== "Resolved"
+            ? "not-allowed"
+            : "pointer",
+      }}
+    >
+      <FaUpload />
+
+      {item.status === "Resolved"
+        ? "Upload Feedback"
+        : "Only for Resolved"}
+
+      <input
+        type="file"
+        hidden
+        disabled={
+          item.status !==
+          "Resolved"
+        }
+        onChange={(e) =>
+          handleFeedbackUpload(
+            item._id,
+            e.target.files[0]
+          )
+        }
+      />
+    </label>
+
+  ) : (
+
+    <>
+      <img
+        src={`http://localhost:5000/uploads/${item.feedbackImage}`}
+        alt="feedback"
+        className="feedback-image"
+      />
+
+      <button
+        className="undo-btn"
+        onClick={() =>
+          handleUndo(item._id)
+        }
+      >
+        <FaUndo />
+        Re-upload
+      </button>
+    </>
+  )}
+</div>
               </div>
             ))}
           </div>

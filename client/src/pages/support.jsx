@@ -8,6 +8,9 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./support.css";
+import {
+  sendSupportMessage
+} from "../api";
 
 function Support() {
   const navigate = useNavigate();
@@ -28,22 +31,69 @@ function Support() {
   const handleLogout = () =>
     navigate("/login");
 
-  const handleSupport = () =>
-    navigate("/support");
+  
 
   // Send Email
-  const handleEmail = () => {
+  const handleEmail =
+async () => {
+
+  if (!message.trim()) {
+   // alert(
+  //    "Please enter message"
+    //);
+    return;
+  }
+      const user=JSON.parse(localStorage.getItem("user"));
+
+  const supportData = {
+
+
+    name: user.username,
+
+    email: user.email,
+
+    subject:
+      "CivicTrack Support Request",
+
+    message,
+  };
+
+  try {
+
+    const response =
+      await sendSupportMessage(
+        supportData
+      );
+
+    console.log(response);
+
     const email =
       "support@civictrack.com";
 
     const subject =
       "CivicTrack Support Request";
 
-    const body = message;
+    const body =
+      message;
 
     window.location.href =
       `mailto:${email}?subject=${subject}&body=${body}`;
-  };
+
+    alert(
+      "Support message saved successfully ✅"
+    );
+
+    setMessage("");
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert(
+      "Support message failed ❌"
+    );
+  }
+};
 
   return (
     <div className="support-page">
@@ -107,13 +157,13 @@ function Support() {
             Need Help?
           </h3>
 
-          <button
-            onClick={
-              handleSupport
-            }
-          >
-            Contact Support
-          </button>
+        <button
+  onClick={
+    handleEmail
+  }
+>
+  Contact Support
+</button>
         </div>
       </div>
 
@@ -155,15 +205,13 @@ function Support() {
             }
             className="textarea"
           />
-
           <button
-            className="send-btn"
-            onClick={
-              handleEmail
-            }
-          >
-            Send Email
-          </button>
+          className="send-btn"
+       onClick={
+          handleEmail
+                   }>
+  Send Email
+</button>
         </div>
       </div>
     </div>

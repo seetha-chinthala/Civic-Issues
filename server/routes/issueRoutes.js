@@ -127,4 +127,28 @@ router.delete("/allComplaints/:id", authMiddleware, async(req, res) => {
     }
 });
 
+router.put(
+    "/allComplaints/remove-feedback/:id",
+    authMiddleware,
+    async(req, res) => {
+        try {
+            const updated =
+                await Issue.findByIdAndUpdate(
+                    req.params.id, {
+                        feedbackImage: "",
+                    }, { new: true }
+                );
+
+            res.json({
+                message: "Feedback removed successfully",
+                data: updated,
+            });
+        } catch (err) {
+            res.status(500).json({
+                error: err.message,
+            });
+        }
+    }
+);
+
 module.exports = router;

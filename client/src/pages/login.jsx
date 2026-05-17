@@ -62,8 +62,18 @@ function Login() {
             "token",
             res.token
         );
-        window.localStorage.setItem("username",res.username)
+
+          localStorage.setItem(
+    "user",
+    JSON.stringify(
+      res.user
+    )
+  );
+
+        localStorage.setItem("username",res.username)
             localStorage.setItem("userId", res.userId);
+            localStorage.setItem("email",res.user.email);
+W
 
       console.log("stored");
     }

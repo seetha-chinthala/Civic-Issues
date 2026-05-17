@@ -6,6 +6,8 @@ router.use(bodyParser.json());
 const jwt = require("jsonwebtoken");
 
 
+
+
 const User = require("../models/User");
 
 /* REGISTER */
@@ -49,6 +51,7 @@ router.post(
                     id: user._id,
                     username: user.username,
                     role: user.role,
+                    email: user.email
                 },
                 "mysecretkey", {
                     expiresIn: "7d",
@@ -61,6 +64,7 @@ router.post(
                 user: {
                     userId: user._id,
                     username: user.username,
+                    email: user.email,
                     role: user.role,
                     password: user.password
                 },
@@ -86,5 +90,6 @@ router.get("/users", async(req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 });
+
 
 module.exports = router;

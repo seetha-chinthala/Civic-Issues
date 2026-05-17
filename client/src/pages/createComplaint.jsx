@@ -139,7 +139,7 @@ function CreateComplaint() {
         description: "",
         date: "",
         username: "",
-        image: null,
+        image: "",
       });
     } catch (error) {
       console.log(error);
@@ -208,6 +208,12 @@ function CreateComplaint() {
 
       {/* FORM SECTION */}
       <div className="form-section">
+                <div className="welcome-section">
+          
+          <p>Report issues  🙋, track progress and help make your <br/>city better every day</p>
+        </div><br/>
+        <br/>
+
         <form
           onSubmit={
             handleSubmit
@@ -215,7 +221,7 @@ function CreateComplaint() {
           className="complaint-form"
         >
           <h1>
-            Create Complaint
+            Report Issue
           </h1>
 
           {/* TITLE */}

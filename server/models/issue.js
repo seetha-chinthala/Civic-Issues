@@ -13,8 +13,10 @@ const issueSchema = new mongoose.Schema({
 
     username: String,
     image: String,
-    feedbackImage: String,
-
+    feedbackImage: {
+        type: String,
+        default: ""
+    },
     date: {
         type: Date,
         default: Date.now()

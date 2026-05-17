@@ -9,10 +9,15 @@ app.use(cors());
 app.use(express.json());
 
 /* ROUTES */
+const supportRoutes = require("./routes/supportRoutes");
+
 const userRoutes = require("./routes/userRoutes");
 const issueRoutes = require("./routes/issueRoutes");
 app.use("/api", userRoutes);
 app.use("/api", issueRoutes);
+
+app.use("/api/support", supportRoutes);
+
 
 app.use("/uploads", express.static("uploads"));
 
