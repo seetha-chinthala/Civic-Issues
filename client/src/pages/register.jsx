@@ -96,12 +96,12 @@ localStorage.setItem(
 alert(
   "Registration successful ✅"
 );
-
-if (data.role === "admin") {
-  navigate("/adminDashboard");
-} else {
-  navigate("/userDashboard");
-}
+navigate("/login");
+//if (data.role === "admin") {
+  //navigate("/adminDashboard");
+//} else {
+  //navigate("/userDashboard");
+//}
       } catch (err) {
 
   console.error(err);
