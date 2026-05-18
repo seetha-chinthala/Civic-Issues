@@ -562,33 +562,158 @@ table td:nth-child(6) {
 
 /* MOBILE */
 
-@media (max-width: 682px) {
+
+/* =========================
+   TABLET (768px - 1200px)
+========================= */
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
     .dashboard-container {
-        flex-direction: column;
+        display: flex;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
-    /* MAIN */
+    /* SIDEBAR */
+    .sidebar {
+        width: 210px;
+        min-width: 210px;
+        padding: 18px;
+        overflow-y: auto;
+    }
+    .sidebar h2 {
+        font-size: 28px;
+    }
+    .sidebar a,
+    .sidebar button {
+        font-size: 15px;
+        padding: 12px;
+    }
+    /* MAIN CONTENT */
     .main-content {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px;
+        margin-left: 210px;
+        width: calc(100% - 210px);
+        padding: 22px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    /* WELCOME */
+    .welcome-section h1 {
+        font-size: 26px;
+    }
+    .welcome-section p {
+        font-size: 17px;
     }
     /* CARDS */
     .cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
-    /* TITLE */
-    .welcome-section h1 {
-        font-size: 28px;
+    .card {
+        min-height: 140px;
+        padding: 20px;
+    }
+    .card p {
+        font-size: 34px;
     }
     /* TABLE */
     .table-section {
         overflow-x: auto;
     }
     table {
-        min-width: 700px;
+        min-width: 850px;
     }
     /* MODAL */
     .modal-box {
-        width: 90%;
+        width: 85%;
+        max-width: 420px;
+    }
+}
+
+
+/* =========================
+   MOBILE (<768px)
+========================= */
+
+@media screen and (max-width: 767px) {
+    .dashboard-container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    /* SIDEBAR */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        padding: 18px;
+        overflow-y: visible;
+    }
+    .sidebar h2 {
+        font-size: 28px;
+        text-align: center;
+    }
+    .sidebar ul {
+        margin-top: 20px;
+    }
+    .sidebar a,
+    .sidebar button {
+        font-size: 15px;
+        padding: 13px;
+    }
+    .sidebar-help {
+        margin-top: 25px;
+    }
+    /* MAIN CONTENT */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 16px;
+        overflow-x: auto;
+    }
+    /* WELCOME */
+    .welcome-section h1 {
+        font-size: 24px;
+    }
+    .welcome-section p {
+        font-size: 16px;
+    }
+    /* CARDS */
+    .cards {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .card {
+        min-height: 130px;
+        padding: 20px;
+    }
+    .card h3 {
+        font-size: 16px;
+    }
+    .card p {
+        font-size: 30px;
+    }
+    /* TABLE */
+    .table-section {
+        overflow-x: auto;
+        padding: 18px;
+    }
+    table {
+        min-width: 700px;
+    }
+    /* PAGINATION */
+    .pagination {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    /* MODAL */
+    .modal-box {
+        width: 92%;
+        padding: 24px;
+    }
+    .modal-box h2 {
+        font-size: 24px;
+    }
+    .modal-box p {
+        font-size: 15px;
     }
 }

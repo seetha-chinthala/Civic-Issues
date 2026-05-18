@@ -103,29 +103,39 @@ const [activeFilter, setActiveFilter] =
 
 const openComplaints = filteredComplaints.filter(
   (item) =>
-    item.status !== "Resolved" ||
-    !item.feedback ||
-    item.feedback.trim() === ""
-);
-const displayComplaints = openComplaints.filter((item) => {
-
-  if (activeFilter === "pending") {
-    return item.status === "Pending";
-  }
-
-  if (activeFilter === "progress") {
-    return item.status === "In Progress";
-  }
-
-  if (activeFilter === "resolved") {
-    return (
+    item.status === "Pending" ||
+    item.status === "In Progress" ||
+    (
       item.status === "Resolved" &&
-      (!item.feedback || item.feedback.trim() === "")
-    );
-  }
+      (
+        !item.feedbackImage ||
+        item.feedbackImage.trim() === ""
+      )
+    )
+);
+const displayComplaints =
+  openComplaints.filter((item) => {
 
-  return true;
-});
+    if (activeFilter === "pending") {
+      return item.status === "Pending";
+    }
+
+    if (activeFilter === "progress") {
+      return item.status === "In Progress";
+    }
+
+    if (activeFilter === "resolved") {
+      return (
+        item.status === "Resolved" &&
+        (
+          !item.feedbackImage ||
+          item.feedbackImage.trim() === ""
+        )
+      );
+    }
+
+    return true;
+  });
 const closedComplaints = complaints.filter(
   (item) =>
     item.status === "Resolved" &&
@@ -144,7 +154,7 @@ const progressCount = openComplaints.filter(
 const resolvedNoFeedbackCount = openComplaints.filter(
   (item) =>
     item.status === "Resolved" &&
-    (!item.feedback || item.feedback.trim() === "")
+    (!item.feedbackImage || item.feedbackImage.trim() === "")
 ).length;
 
   return (

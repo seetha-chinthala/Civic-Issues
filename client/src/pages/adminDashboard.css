@@ -12,8 +12,9 @@
 html,
 body {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
     background: #f5f7fb;
 }
 
@@ -30,16 +31,17 @@ body {
 .dashboard {
     display: flex;
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     background: #f5f7fb;
     padding-top: 50px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 
 /* =========================
    SIDEBAR
-========================= */
+=========================*/
 
 .sidebar {
     width: 260px;
@@ -52,7 +54,10 @@ body {
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto;
+    overflow-x: hidden;
     flex-shrink: 0;
+    position: sticky;
+    top: 0;
 }
 
 .logo-section {
@@ -128,13 +133,14 @@ body {
 
 .main {
     flex: 1;
-    width: 100%;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    min-width: 0;
+    min-height: 100vh;
     padding: 25px;
-    padding-left: 300px;
     background: #f5f7fb;
+    overflow-x: auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    margin-left: 220px;
 }
 
 
@@ -424,18 +430,31 @@ td {
 ========================= */
 
 @media screen and (min-width: 768px) and (max-width: 1200px) {
+    .dashboard {
+        display: flex;
+        overflow-y: auto;
+    }
     .sidebar {
-        width: 50px;
-        min-width: 50px;
-        padding: 1px;
+        width: 220px;
+        min-width: 220px;
+        padding: 15px;
+        height: 100vh;
+        overflow-y: auto;
     }
     .main {
+        flex: 1;
         width: 100%;
-        padding: 18px;
-        padding-left: 55px;
+        padding: 20px;
+        overflow-x: auto;
+        overflow-y: auto;
+        min-width: 0;
+        margin-left: 10px;
     }
     .cards {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .filters {
+        flex-wrap: wrap;
     }
     .filters select,
     .filters input,
@@ -443,11 +462,14 @@ td {
         flex: 1 1 45%;
     }
     .search {
-        flex: 1 1 100%;
+        width: 100%;
     }
     .filter-btn {
         width: 100%;
         justify-content: center;
+    }
+    table {
+        min-width: 800px;
     }
 }
 
@@ -463,23 +485,45 @@ td {
     }
     .dashboard {
         flex-direction: column;
-        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
     }
     .sidebar {
-        width: 50px;
-        min-width: 50px;
+        width: 100%;
+        min-width: 100%;
         height: auto;
+        padding: 20px;
+        position: relative;
+        overflow: visible;
+    }
+    .logo-section {
+        justify-content: center;
+    }
+    .logo-section h2 {
+        font-size: 24px;
+    }
+    .menu {
+        margin-top: 20px;
+    }
+    .menu-item {
+        font-size: 14px;
+        padding: 14px;
     }
     .main {
         width: 100%;
-        padding-left: 50px;
-        height: auto;
+        min-height: auto;
         padding: 15px;
+        overflow-x: auto;
+        overflow-y: auto;
+        margin-left: 1px;
     }
     .topbar {
         flex-direction: column;
         align-items: flex-start;
-        gap: 5px;
+        gap: 15px;
+    }
+    .topbar h1 {
+        font-size: 24px;
     }
     .cards {
         grid-template-columns: 1fr;
@@ -493,7 +537,15 @@ td {
     .filter-btn {
         width: 100%;
     }
+    .table-box {
+        overflow-x: auto;
+        width: 100%;
+    }
+    table {
+        min-width: 700px;
+    }
     .pagination {
-        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 }
