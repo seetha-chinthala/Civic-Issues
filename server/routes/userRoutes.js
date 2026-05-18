@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 
 const User = require("../models/User");
+const authMiddleware = require("../middleware/authMiddleware");
 
 /* REGISTER */
 
@@ -71,6 +72,8 @@ router.post(
             const token =
                 jwt.sign({
                         id: user._id,
+                        username: user.username,
+                        email: user.email,
                         role: user.role,
                     },
                     "SECRET_KEY", {
@@ -84,7 +87,7 @@ router.post(
                 token,
 
                 user: {
-                    _id: user._id,
+                    userId: user._id,
                     username: user.username,
                     email: user.email,
                     role: user.role,

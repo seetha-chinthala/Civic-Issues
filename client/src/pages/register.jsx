@@ -77,55 +77,30 @@ function Register() {
             data.password,
           role: data.role,
         };
-
-        const res =
-  await registerUser(
-    payload
-  );
+const res = await registerUser(payload);
 
 console.log(res);
 
-// SAVE TOKEN
+// STORE TOKEN
 localStorage.setItem(
   "token",
   res.token
 );
 
-// SAVE USER
+// STORE USER
 localStorage.setItem(
   "user",
-  JSON.stringify(
-    res.user
-  )
-);
-
-// SAVE USERNAME
-localStorage.setItem(
-  "username",
-  res.user.username
-);
-
-// SAVE EMAIL
-localStorage.setItem(
-  "email",
-  res.user.email
+  JSON.stringify(res.user)
 );
 
 alert(
   "Registration successful ✅"
 );
 
-if (
-  res.user.role ===
-  "admin"
-) {
-  navigate(
-    "/adminDashboard"
-  );
+if (data.role === "admin") {
+  navigate("/adminDashboard");
 } else {
-  navigate(
-    "/userDashboard"
-  );
+  navigate("/userDashboard");
 }
       } catch (err) {
 

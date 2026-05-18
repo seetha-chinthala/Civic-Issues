@@ -42,7 +42,7 @@ export const loginUser =
 export const registerUser = async(data) => {
     try {
         const response = await fetch(
-            "http://localhost:5000/api/register", {
+            `http://localhost:5000/api/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -91,10 +91,30 @@ export const createComplaint = async(formData) => {
 };
 
 //allComplaints
-export const allComplaints = async() => {
-    const response = await fetch("http://localhost:5000/api/allComplaints");
+// ==============================
 
-    return await response.json();
+// ==============================
+
+export const allComplaints = async() => {
+    try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+            "http://localhost:5000/api/allComplaints", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
 };
 
 
@@ -114,7 +134,15 @@ export const updateComplaintStatus = async(id, status) => {
 
 //get users
 export const getUsers = async() => {
-    const response = await fetch(`http://localhost:5000/api/users`);
+
+
+    const response = await fetch(`http://localhost:5000/api/users`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
     return await response.json();
 };
 
@@ -135,14 +163,14 @@ export const getMyComplaints = async() => {
 
         console.log("Logged user:", username);
 
-        const response = await fetch(
-            `http://localhost:5000/api/myComplaints/${username}`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        // Notice the backticks (`) used here to properly allow ${username}
+        const response = await fetch(`http://localhost:5000/api/myComplaints/${username}`, {
+            method: "GET",
+            headers: {
+                // Notice the backticks (`) used here to properly allow ${token}
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         const data = await response.json();
 

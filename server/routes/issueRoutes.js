@@ -62,7 +62,7 @@ router.get("/allComplaints", async(req, res) => {
 });
 
 /* UPDATE ISSUE STATUS */
-router.put("/updateStatus/:id", authMiddleware, async(req, res) => {
+router.put("/updateStatus/:id", async(req, res) => {
 
     const updated = await Issue.findByIdAndUpdate(
         req.params.id,
