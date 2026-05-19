@@ -11,7 +11,54 @@ const Issue = require("../models/Issue");
 router.use("/uploads", express.static("uploads"));
 
 
+//check escalation  
+router.get("/", async(req, res) => {
+    try {
+        const issues = await Issue.find();
 
+        for (let issue of issues) {
+
+            const createdDate =
+                new Date(issue.createdAt);
+
+            const currentDate =
+                new Date();
+
+            const diffTime =
+                currentDate - createdDate;
+
+            const diffDays =
+                diffTime / (1000 * 60 * 60 * 24);
+
+            if (
+                diffDays > 7 &&
+                issue.status !== "Resolved" &&
+                !issue.isEscalated
+            ) {
+
+                issue.isEscalated = true;
+
+                issue.escalatedAt =
+                    new Date();
+
+                await issue.save();
+            }
+        }
+
+        const updatedIssues =
+            await Issue.find();
+
+        res.json(updatedIssues);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Server Error",
+        });
+    }
+});
 
 
 // Create complaint
@@ -22,6 +69,7 @@ router.post(
         try {
             const { title, category, description, location, date, username } =
             req.body;
+            const department = await Department.findOne({ name: category });
 
             const issue = new Issue({
                 title,
@@ -30,6 +78,7 @@ router.post(
                 location,
                 date,
                 username,
+                department: department._id,
 
                 image: req.file ?
                     req.file.filename : "",

@@ -26,6 +26,7 @@ function Register() {
       password: "",
       role: "user",
       identity: "",
+      councilCode: "",
     });
 
   const [error, setError] =
@@ -96,12 +97,16 @@ localStorage.setItem(
 alert(
   "Registration successful ✅"
 );
-navigate("/login");
-//if (data.role === "admin") {
-  //navigate("/adminDashboard");
-//} else {
-  //navigate("/userDashboard");
-//}
+const role = res.user?.role || data.role;
+
+if (role === "admin" || role === "Admin") {
+  navigate("/adminDashboard");
+} else if (role === "Council"||role=== "council") {
+  navigate("/councilDashboard");
+} else if(role === "user" || role === "User")   {
+  navigate("/userDashboard");
+}
+
       } catch (err) {
 
   console.error(err);
@@ -225,7 +230,23 @@ navigate("/login");
             <option value="admin">
               Admin
             </option>
+             <option value="council">
+              Council
+            </option>
+
           </select>
+{/* Council Code for Council Registration */}
+            {data.role === "Council" && (
+          <input
+             style={styles.input}
+             type="password"
+             name="councilCode"
+             placeholder="Enter Council Code"
+             value={data.councilCode}
+             onChange={handleChange}
+             required
+            />
+           )}
 
           {/* Admin Identity */}
           {data.role ===

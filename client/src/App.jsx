@@ -11,6 +11,8 @@ import AllComplaints from "./pages/allComplaints";
 import Users from "./pages/users";
 import ForgotPassword from "./pages/forgotPassword";
 import ResetPassword from "./pages/resetPassword";
+import CouncilDashboard from "./pages/councilDashboard";
+
 
 import UserDashboard from "./pages/userDashboard";
   
@@ -62,7 +64,14 @@ function App() {
                 <Route
           path="/support"
           element={<Support />}
+          
         />
+        //councildashboard
+                <Route
+  path="/councilDashboard"
+  element={<CouncilDashboard />}
+/>
+
         //allComplaints
        <Route path="/allComplaints"
           element={<AllComplaints />} />

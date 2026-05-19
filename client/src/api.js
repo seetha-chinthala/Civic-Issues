@@ -1,43 +1,24 @@
 //login
-export const loginUser =
-    async(data) => {
-        const response =
-            await fetch(
-                "http://localhost:5000/api/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(
-                        data
-                    ),
-                }
-            );
-        console.log("chala bavunhi ", response)
-        const result =
-            await response.json();
+export const loginUser = async(data) => {
 
-        if (!response.ok) {
-            throw new Error(
-                result.message
-            );
+    const response = await fetch(
+        "http://localhost:5000/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
         }
+    );
 
-        // Save token
-        localStorage.setItem(
-            "token",
-            result.token
-        );
+    const result = await response.json();
 
-        localStorage.setItem(
-            "user",
-            JSON.stringify(
-                result.user
-            )
-        );
+    if (!response.ok) {
+        throw new Error(result.message);
+    }
 
-        return result;
-    };
+    return result;
+};
 //register
 export const registerUser = async(data) => {
     try {

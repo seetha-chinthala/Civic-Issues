@@ -56,56 +56,41 @@ function Login() {
     try {
       const res = await loginUser(data);
 
-      console.log("neeku Response:", res);
-        if(res.ok){     
-      window.localStorage.setItem(
-            "token",
-            res.token
-        );
+console.log("LOGIN RESPONSE:", res);
 
-          localStorage.setItem(
-    "user",
-    JSON.stringify(
-      res.user
-    )
-  );
+if (res && res.token) {
 
-        localStorage.setItem("username",res.username)
-            localStorage.setItem("userId", res.userId);
-            localStorage.setItem("email",res.user.email);
-W
+  window.localStorage.setItem("token", res.token);
 
-      console.log("stored");
-    }
+  localStorage.setItem("user", JSON.stringify(res.user));
+  localStorage.setItem("userId", res.user.userId);
+  localStorage.setItem("email", res.user.email);
 
+  alert(res.message || "Login Successful ✅");
 
-      alert(
-        res.message ||
-          "Login Successful ✅"
-      );
+  if (res.user.role === "admin") {
+    navigate("/adminDashboard");
+  } 
+  else if (
+    res.user.role === "Council" ||
+    res.user.role === "council"
+  ) {
+    navigate("/councilDashboard");
+  } 
+  else {
+    navigate("/userDashboard");
+  }
 
-      if (
-        res.user.role ===
-        "admin"
-      ) {
-        navigate(
-          "/adminDashboard"
-        );
-      } else {
-        navigate(
-          "/userDashboard"
-        );
-      }
-    } catch (error) {
-      console.log(error);
+} else {
+  alert(res.message || "Login Failed ❌");
+}
+      
+  } catch (error) {
+    console.log(error);
 
-      setError(
-        error.response?.data
-          ?.message ||
-          "Invalid Username or Password ❌"
-      );
-    }
-  };
+    setError("Invalid Username or Password ❌");
+  }
+};
 return (
   <div style={styles.container}>
     {/* Navbar */}

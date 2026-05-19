@@ -28,6 +28,7 @@ router.post(
                 email,
                 password,
                 role,
+                councilCode,
             } = req.body;
 
             // CHECK USERNAME
@@ -61,6 +62,15 @@ router.post(
                         message: "Email already exists ❌",
                     });
             }
+            if (
+                role === "Council" &&
+                councilCode !== "COUNCIL2026"
+            ) {
+                return res.status(401).json({
+                    message: "Invalid Council Code ❌",
+                });
+            }
+
 
             // CREATE USER
             const user =

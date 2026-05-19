@@ -17,6 +17,15 @@ const issueSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    isEscalated: {
+        type: Boolean,
+        default: false,
+    },
+
+    escalatedAt: {
+        type: Date,
+    },
+
     date: {
         type: Date,
         default: Date.now()
