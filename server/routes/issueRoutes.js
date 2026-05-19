@@ -31,7 +31,7 @@ router.get("/", async(req, res) => {
                 diffTime / (1000 * 60 * 60 * 24);
 
             if (
-                diffDays > 7 &&
+                diffDays > 0 &&
                 issue.status !== "Resolved" &&
                 !issue.isEscalated
             ) {
@@ -69,7 +69,7 @@ router.post(
         try {
             const { title, category, description, location, date, username } =
             req.body;
-            const department = await Department.findOne({ name: category });
+
 
             const issue = new Issue({
                 title,
@@ -78,7 +78,7 @@ router.post(
                 location,
                 date,
                 username,
-                department: department._id,
+
 
                 image: req.file ?
                     req.file.filename : "",
