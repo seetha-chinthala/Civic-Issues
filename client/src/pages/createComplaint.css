@@ -376,7 +376,7 @@ input[type="date"] {
    MOBILE
 ========================= */
 
-@media screen and (min-width: 220px) and (max-width: 767px) {
+@media screen and (min-width: 368px) and (max-width: 767px) {
     .create-container {
         flex-direction: column;
         min-height: 100vh;
@@ -416,7 +416,7 @@ input[type="date"] {
         width: 100%;
         max-width: 300px;
         padding: 20px 15px;
-        margin-left: 250px;
+        margin-left: 120px;
     }
     .complaint-form {
         width: 100%;
