@@ -7,7 +7,7 @@ const Support = require(
 
 // SAVE SUPPORT MESSAGE
 router.post(
-    "/",
+    "/support",
     async(req, res) => {
         try {
             const supportMessage =

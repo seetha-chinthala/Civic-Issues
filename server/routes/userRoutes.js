@@ -3,9 +3,10 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
-
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+
 
 
 
@@ -169,8 +170,7 @@ router.post(
                 });
         }
     }
-);
-//get users
+); //in this route what changes need at where //get users
 router.get("/users", async(req, res) => {
     try {
         const users = await User.find();
@@ -256,8 +256,8 @@ router.post(
                     10
                 );
 
-            user.password = hashedPassword;
-
+            user.password = req.body.password;
+            await user.save();
             user.resetToken = undefined;
             user.resetTokenExpiry = undefined;
 
