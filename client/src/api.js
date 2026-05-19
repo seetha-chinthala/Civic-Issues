@@ -270,3 +270,58 @@ export const sendSupportMessage =
 
         return await response.json();
     };
+//forgot password api
+export const forgotPassword = async(email) => {
+    try {
+        const response = await fetch(
+            `http://localhost:5000/api/forgot-password`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            }
+        );
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Forgot Password Error:", error);
+        throw error;
+    }
+};
+export const resetPassword =
+    async(token, password) => {
+
+        try {
+
+            const response =
+                await fetch(
+                    `http://localhost:5000/api/reset-password/${token}`, {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+
+                        body: JSON.stringify({
+                            password,
+                        }),
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            return data;
+
+        } catch (error) {
+
+            console.log(
+                "Reset Password Error:",
+                error
+            );
+
+            throw error;
+        }
+    };

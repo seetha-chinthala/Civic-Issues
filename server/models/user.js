@@ -8,7 +8,15 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         default: "user"
-    }
+    },
+    resetToken: {
+        type: String,
+    },
+
+    resetTokenExpiry: {
+        type: Date,
+    },
+
 });
 
 module.exports = mongoose.model("User", userSchema);

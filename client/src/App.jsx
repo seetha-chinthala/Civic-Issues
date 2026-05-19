@@ -9,6 +9,8 @@ import CreateComplaint from "./pages/createComplaint";
 import Support from "./pages/Support";
 import AllComplaints from "./pages/allComplaints";
 import Users from "./pages/users";
+import ForgotPassword from "./pages/forgotPassword";
+import ResetPassword from "./pages/resetPassword";
 
 import UserDashboard from "./pages/userDashboard";
   
@@ -33,11 +35,28 @@ function App() {
           path="/myComplaints"
           element={<MyComplaints />}
         />
+                {/* FORGOT PASSWORD */}
+        <Route
+          path="/forgot-password"
+          element={
+            <ForgotPassword />
+          }
+        />
+
+        {/* RESET PASSWORD */}
+        <Route
+          path="/reset-password/:token"
+          element={
+            <ResetPassword />
+          }
+        />
+
 
         <Route
           path="/createComplaint"
           element={<CreateComplaint />}
         />
+        
 
         //support
                 <Route
