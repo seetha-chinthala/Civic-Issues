@@ -534,3 +534,179 @@ body {
     margin-top: 12px;
     border: 1px solid #e2e8f0;
 }
+
+@media screen and (max-width: 768px) {
+    html,
+    body {
+        overflow-x: hidden;
+    }
+    /* Sidebar */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+    .sidebar h2 {
+        font-size: 24px;
+    }
+    /* Horizontal menu */
+    .sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+    }
+    .sidebar ul::-webkit-scrollbar {
+        display: none;
+    }
+    .sidebar ul li {
+        flex-shrink: 0;
+    }
+    .sidebar a,
+    .sidebar button {
+        white-space: nowrap;
+        font-size: 14px;
+        padding: 12px 14px;
+    }
+    /* Main content */
+    .all-complaints-container {
+        padding: 15px;
+        margin-left: 0;
+    }
+    .all-complaints-title {
+        font-size: 24px;
+        text-align: center;
+    }
+    /* Count cards */
+    .top-counts {
+        flex-direction: column;
+    }
+    .count-card {
+        min-width: 100%;
+    }
+    /* Filters */
+    .filters-section {
+        flex-direction: column;
+    }
+    .filters-section select,
+    .search-box {
+        width: 100%;
+    }
+    /* Complaint cards */
+    .complaints-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .complaint-card {
+        width: 100%;
+        max-width: 380px;
+    }
+    .complaint-image,
+    .no-image {
+        height: 180px;
+    }
+    /* Buttons */
+    .card-buttons {
+        flex-wrap: wrap;
+    }
+    .update-btn {
+        width: 100%;
+    }
+    .view-btn,
+    .delete-btn {
+        flex: 1;
+    }
+    /* Popup */
+    .popup-overlay {
+        padding: 10px;
+    }
+    .popup-card {
+        width: 100%;
+        max-height: 95vh;
+        border-radius: 18px;
+        padding: 20px;
+    }
+    .popup-title {
+        font-size: 24px;
+        padding-right: 40px;
+    }
+    .popup-image {
+        height: 220px;
+    }
+    .popup-row {
+        padding: 12px;
+    }
+    .closed-grid {
+        gap: 15px;
+    }
+    .closed-image,
+    .feedback-image {
+        height: 180px;
+    }
+}
+
+
+/* ====================================
+   SMALL MOBILE (480px)
+==================================== */
+
+@media screen and (max-width: 480px) {
+    .sidebar {
+        padding: 12px;
+    }
+    .sidebar h2 {
+        font-size: 20px;
+    }
+    .sidebar a,
+    .sidebar button {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+    .all-complaints-title {
+        font-size: 22px;
+    }
+    .count-card {
+        padding: 14px;
+    }
+    .count-card p {
+        font-size: 22px;
+    }
+    .complaint-card {
+        border-radius: 14px;
+    }
+    .complaint-content h3 {
+        font-size: 17px;
+    }
+    .complaint-content p {
+        font-size: 13px;
+    }
+    .pending,
+    .progress,
+    .resolved {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+    .popup-card {
+        padding: 16px;
+    }
+    .popup-title {
+        font-size: 20px;
+    }
+    .popup-image {
+        height: 180px;
+    }
+    .popup-row span {
+        font-size: 12px;
+    }
+    .popup-row p {
+        font-size: 14px;
+    }
+    .closed-content h3 {
+        font-size: 18px;
+    }
+    .closed-content p {
+        font-size: 13px;
+    }
+}

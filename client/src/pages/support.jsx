@@ -33,8 +33,11 @@ const role =
   const handleUsers = () =>
     navigate("/myComplaints");
 
-    const handleAdminDashboard = () =>
+                  const handleAdminDashboard = () =>
     navigate("/adminDashboard");
+
+                  const handleCouncilDashboard = () =>
+    navigate("/councilDashboard");
 
 
   const handleLogout = () =>
@@ -176,6 +179,39 @@ async () => {
       </div>
     </>
   )}
+    {/* COUNCIL MENU */}
+  {role === "council"&& (
+    <>
+      <div
+        className="menu-item"
+        onClick={handleCouncilDashboard}
+      >
+        <FaHome />
+        Council Dashboard
+      </div>
+
+      <div
+        className="menu-item"
+        onClick={() =>
+          navigate("/allComplaints")
+        }
+      >
+        <FaClipboardList />
+        All Complaints
+      </div>
+
+      <div
+        className="menu-item"
+        onClick={() =>
+          navigate("/users")
+        }
+      >
+        <FaUsers />
+        Users
+      </div>
+    </>
+  )}
+
 
   {/* COMMON MENU */}
   <div

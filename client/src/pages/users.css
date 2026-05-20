@@ -516,29 +516,136 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .main h1 {
-        font-size: 28px;
-        padding-left: 80px;
+@media screen and (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
     }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+    .sidebar h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+    /* Horizontal Menu */
+    .sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 10px;
+        scrollbar-width: none;
+    }
+    .sidebar ul::-webkit-scrollbar {
+        display: none;
+    }
+    .sidebar ul li {
+        flex-shrink: 0;
+    }
+    .sidebar ul li a {
+        white-space: nowrap;
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    .help-box {
+        margin-top: 15px;
+        padding: 16px;
+    }
+    .help-box h3 {
+        font-size: 18px;
+    }
+    .main {
+        padding: 18px;
+    }
+    .main h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    /* Single card layout */
     .users-grid {
         grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .user-card {
+        padding: 22px;
+    }
+    .user-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+    }
+    .user-card h2 {
+        font-size: 20px;
+    }
+    .popup-overlay {
+        padding: 10px;
+    }
+    .popup-box {
+        width: 100%;
+        max-height: 92vh;
+        padding: 20px;
+        border-radius: 22px;
     }
     .popup-top {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        flex-direction: row;
+        align-items: center;
     }
     .popup-top h2 {
-        font-size: 24px;
+        font-size: 22px;
     }
     .popup-summary-icons {
         grid-template-columns: 1fr;
+        gap: 14px;
     }
     .complaint-grid {
         grid-template-columns: 1fr;
     }
+    .complaint-img {
+        height: 180px;
+    }
     .icon-box {
-        font-size: 24px;
+        font-size: 22px;
+        padding: 16px;
+    }
+    .close-btn {
+        padding: 13px;
+        font-size: 15px;
+    }
+}
+
+
+/* ===========================
+   SMALL MOBILE
+=========================== */
+
+@media screen and (max-width: 480px) {
+    .sidebar h2 {
+        font-size: 20px;
+    }
+    .main h1 {
+        font-size: 22px;
+    }
+    .popup-top h2 {
+        font-size: 20px;
+    }
+    .user-card {
+        padding: 18px;
+    }
+    .popup-box {
+        padding: 16px;
+    }
+    .complaint-content h3 {
+        font-size: 16px;
+    }
+    .status {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    .view-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
     }
 }
