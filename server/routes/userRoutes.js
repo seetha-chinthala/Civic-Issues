@@ -6,14 +6,7 @@ router.use(bodyParser.json());
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
-
-
-
-
-
-
-const User = require("../models/User");
+const User = require("../models/user");
 const authMiddleware = require("../middleware/authMiddleware");
 
 /* REGISTER */

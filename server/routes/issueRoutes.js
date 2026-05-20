@@ -7,7 +7,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router.use(bodyParser.json());
 
-const Issue = require("../models/Issue");
+const Issue = require("../models/issue");
 router.use("/uploads", express.static("uploads"));
 
 
