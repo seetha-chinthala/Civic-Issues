@@ -40,8 +40,10 @@ const role =
     navigate("/councilDashboard");
 
 
-  const handleLogout = () =>
+  const handleLogout = () =>{
+    localStorage.clear() 
     navigate("/login");
+  };
 
   
 
