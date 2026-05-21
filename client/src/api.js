@@ -2,7 +2,7 @@
 export const loginUser = async(data) => {
 
     const response = await fetch(
-        "/api/login", {
+        "https://civic-issues-6.onrender.com/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -12,6 +12,7 @@ export const loginUser = async(data) => {
     );
 
     const result = await response.json();
+
 
     if (!response.ok) {
         throw new Error(result.message);
@@ -23,7 +24,7 @@ export const loginUser = async(data) => {
 export const registerUser = async(data) => {
     try {
         const response = await fetch(
-            `/api/register`, {
+            `https://civic-issues-6.onrender.com/api/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +59,7 @@ export const createComplaint = async(formData) => {
     console.log("Token:", token);
 
     const response = await fetch(
-        "/api/createComplaint", {
+        `https://civic-issues-6.onrender.com/api/createComplaint`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -81,7 +82,7 @@ export const allComplaints = async() => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "/api/allComplaints", {
+            "https://civic-issues-6.onrender.com/api/allComplaints", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -102,7 +103,7 @@ export const allComplaints = async() => {
 
 //updtaeStatus
 export const updateComplaintStatus = async(id, status) => {
-    const response = await fetch(`/api/updateStatus/${id}`, {
+    const response = await fetch(`https://civic-issues-6.onrender.com/api/updateStatus/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -117,7 +118,7 @@ export const updateComplaintStatus = async(id, status) => {
 export const getUsers = async() => {
 
 
-    const response = await fetch(`/api/users`, {
+    const response = await fetch(`https://civic-issues-6.onrender.com/api/users`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -145,7 +146,7 @@ export const getMyComplaints = async() => {
         console.log("Logged user:", username);
 
         // Notice the backticks (`) used here to properly allow ${username}
-        const response = await fetch(`/api/myComplaints/${username}`, {
+        const response = await fetch(`https://civic-issues-6.onrender.com/api/myComplaints/${username}`, {
             method: "GET",
             headers: {
                 // Notice the backticks (`) used here to properly allow ${token}
@@ -176,7 +177,7 @@ export const submitFeedback = async(
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `/api/allComplaints/feedback/${id}`, {
+            `https://civic-issues-6.onrender.com/api/allComplaints/feedback/${id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -210,7 +211,7 @@ export const deleteComplaint = async(
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `/api/allComplaints/${id}`, {
+            `https://civic-issues-6.onrender.com/api/allComplaints/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -238,7 +239,7 @@ export const sendSupportMessage =
 
         const response =
             await fetch(
-                "/api/support", {
+                "https://civic-issues-6.onrender.com/api/support", {
                     method: "POST",
 
                     headers: {
@@ -263,7 +264,7 @@ export const sendSupportMessage =
 export const forgotPassword = async(email) => {
     try {
         const response = await fetch(
-            `/api/forgot-password`, {
+            `https://civic-issues-6.onrender.com/api/forgot-password`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -286,7 +287,7 @@ export const resetPassword =
 
             const response =
                 await fetch(
-                    `/api/reset-password/${token}`, {
+                    `https://civic-issues-6.onrender.com/api/reset-password/${token}`, {
                         method: "POST",
 
                         headers: {

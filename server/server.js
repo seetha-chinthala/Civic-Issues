@@ -27,24 +27,6 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.log(err));
 // Serve frontend
-app.use(
-    express.static(
-        path.join(
-            __dirname,
-            "../client/dist"
-        )
-    )
-);
-
-// React routing
-app.get("/m", (req, res) => {
-    res.sendFile(
-        path.join(
-            __dirname,
-            "../client/dist/index.html"
-        )
-    );
-});
 
 app.listen(5000, () => {
     console.log("Server running on port 5000");
