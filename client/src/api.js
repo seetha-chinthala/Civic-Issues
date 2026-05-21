@@ -2,7 +2,7 @@
 export const loginUser = async(data) => {
 
     const response = await fetch(
-        "http://localhost:5000/api/login", {
+        "/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const loginUser = async(data) => {
 export const registerUser = async(data) => {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/register`, {
+            `/api/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export const createComplaint = async(formData) => {
     console.log("Token:", token);
 
     const response = await fetch(
-        `http://localhost:5000/api/createComplaint`, {
+        `/api/createComplaint`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ export const allComplaints = async() => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "http://localhost:5000/api/allComplaints", {
+            "/api/allComplaints", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ export const allComplaints = async() => {
 
 //updtaeStatus
 export const updateComplaintStatus = async(id, status) => {
-    const response = await fetch(`http://localhost:5000/api/updateStatus/${id}`, {
+    const response = await fetch(`/api/updateStatus/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export const updateComplaintStatus = async(id, status) => {
 export const getUsers = async() => {
 
 
-    const response = await fetch(`http://localhost:5000/api/users`, {
+    const response = await fetch(`/api/users`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -145,7 +145,7 @@ export const getMyComplaints = async() => {
         console.log("Logged user:", username);
 
         // Notice the backticks (`) used here to properly allow ${username}
-        const response = await fetch(`http://localhost:5000/api/myComplaints/${username}`, {
+        const response = await fetch(`/api/myComplaints/${username}`, {
             method: "GET",
             headers: {
                 // Notice the backticks (`) used here to properly allow ${token}
@@ -176,7 +176,7 @@ export const submitFeedback = async(
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/allComplaints/feedback/${id}`, {
+            `/api/allComplaints/feedback/${id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -210,7 +210,7 @@ export const deleteComplaint = async(
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/allComplaints/${id}`, {
+            `/api/allComplaints/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -238,7 +238,7 @@ export const sendSupportMessage =
 
         const response =
             await fetch(
-                "http://localhost:5000/api/support", {
+                "/api/support", {
                     method: "POST",
 
                     headers: {
@@ -249,13 +249,21 @@ export const sendSupportMessage =
                 }
             );
 
-        return await response.json();
-    };
-//forgot password api
+        const result =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.message
+            );
+        }
+
+        return result;
+    }; //forgot password api
 export const forgotPassword = async(email) => {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/forgot-password`, {
+            `/api/forgot-password`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -278,7 +286,7 @@ export const resetPassword =
 
             const response =
                 await fetch(
-                    `http://localhost:5000/api/reset-password/${token}`, {
+                    `/api/reset-password/${token}`, {
                         method: "POST",
 
                         headers: {

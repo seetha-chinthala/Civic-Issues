@@ -196,13 +196,6 @@ function MyComplaints() {
                 key={item._id}
               >
                 {/* complaint image */}
-                {item.image && (
-                  <img
-                    src={`http://localhost:5000/uploads/${item.image}`}
-                    alt="complaint"
-                    className="complaint-image"
-                  />
-                )}
 
                 <h3>{item.title}</h3>
 
@@ -329,13 +322,6 @@ function MyComplaints() {
 
             <h2>{selectedComplaint.title}</h2>
 
-            {selectedComplaint.image && (
-              <img
-                src={`http://localhost:5000/uploads/${selectedComplaint.image}`}
-                alt=""
-                className="popup-image"
-              />
-            )}
 
             <p>
               <strong>Category:</strong>{" "}

@@ -2,10 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-
+const path = require("path");
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: "" }));
 app.use(express.json());
 
 /* ROUTES */
@@ -16,7 +16,7 @@ const issueRoutes = require("./routes/issueRoutes");
 app.use("/api", userRoutes);
 app.use("/api", issueRoutes);
 
-app.use("/api/support", supportRoutes);
+app.use("/api", supportRoutes);
 
 
 app.use("/uploads", express.static("uploads"));
@@ -25,6 +25,26 @@ app.use("/uploads", express.static("uploads"));
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.log(err));
+
+// Serve frontend static files
+app.use(
+    express.static(
+        path.join(
+            __dirname,
+            "../client/dist"
+        )
+    )
+);
+
+// Handle React routes
+app.get("*", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "../client/dist/index.html"
+        )
+    );
+});
 
 app.listen(5000, () => {
     console.log("Server running on port 5000");

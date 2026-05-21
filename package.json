@@ -1,0 +1,22 @@
+{
+    "name": "civic-issues",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "cd frontend &&npm install &&npm run build",
+        "start": "node server/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/seetha-chinthala/Civic-Issues.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/seetha-chinthala/Civic-Issues/issues"
+    },
+    "homepage": "https://github.com/seetha-chinthala/Civic-Issues#readme"
+}

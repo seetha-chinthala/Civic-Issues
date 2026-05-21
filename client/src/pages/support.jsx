@@ -57,19 +57,21 @@ async () => {
   }
       
 
-  const supportData = {
+const supportData = {
 
+  name:
+    user?.username ||
+    "Guest",
 
-    name: user.username,
+  email:
+    user?.email || "",
 
-    email: user.email,
+  subject:
+    "CivicTrack Support Request",
 
-    subject:
-      "CivicTrack Support Request",
-
-    message,
-  };
-
+  message,
+};
+console.log("Support Data:", supportData);  
   try {
 
     const response =
@@ -99,12 +101,16 @@ async () => {
 
   } catch (error) {
 
-    console.log(error);
+  console.log(
+    "Support Error:",
+    error
+  );
 
-    alert(
-      "Support message failed ❌"
-    );
-  }
+  alert(
+    error.message ||
+    "Support message failed ❌"
+  );
+}
 };
 
   return (

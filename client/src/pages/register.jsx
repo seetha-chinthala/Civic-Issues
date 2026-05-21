@@ -16,8 +16,7 @@ import {
 
 
 function Register() {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
   const [data, setData] =
     useState({
@@ -104,7 +103,7 @@ if (role === "admin" || role === "Admin") {
 } else if (role === "Council"||role=== "council") {
   navigate("/councilDashboard");
 } else if(role === "user" || role === "User")   {
-  navigate("/userDashboard");
+  navigate("/login");
 }
 
       } catch (err) {
@@ -300,9 +299,7 @@ if (role === "admin" || role === "Admin") {
               styles.loginLink
             }
             onClick={() =>
-              navigate(
-                "/login"
-              )
+              navigate("/login" )
             }
           >
             {" "}
