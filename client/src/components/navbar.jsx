@@ -37,7 +37,7 @@ function Navbar() {
           />
 
           <span style={styles.username}>
-            seetha
+            seethaa
           </span>
 
           
