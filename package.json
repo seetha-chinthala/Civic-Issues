@@ -18,5 +18,8 @@
     "bugs": {
         "url": "https://github.com/seetha-chinthala/Civic-Issues/issues"
     },
-    "homepage": "https://github.com/seetha-chinthala/Civic-Issues#readme"
+    "homepage": "https://github.com/seetha-chinthala/Civic-Issues#readme",
+    "dependencies": {
+        "path": "^0.12.7"
+    }
 }
